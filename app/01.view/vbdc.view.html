@@ -1,0 +1,151 @@
+<div class="card">
+  <div class="card-header">
+    <span class="card-link" data-toggle="collapse" href="#collapseOne">
+      <i class="fas fa-file-alt" style="margin-right: 10px;"></i>
+      <span style="font-size: 17px;font-weight: 600;">Danh sách văn bản định chế</span>
+    </span>
+    <button type="button" class="btn btn-sm" ng-click="vm.toggleFilterPanel(true);" ng-show="!vm.advancedSearchMode"
+      style="float: right; padding: 2px; font-size:14px;">
+      <i class="fas fa-filter font-green-jungle right-5"></i>Tìm kiếm
+    </button>
+    <button type="button" class="btn btn-sm" ng-click="vm.toggleFilterPanel(false);" ng-show="vm.advancedSearchMode"
+      style="float: right; padding: 2px; font-size:14px;">
+      <i class="fas fa-times" style="margin-right: 5px;color: red"></i>
+      Đóng tìm kiếm
+    </button>
+  </div>
+  <div id="collapseOne" class="collapse show" data-parent="#accordion">
+    <div class="card-body">
+      <div class="row" ng-if="vm.advancedSearchMode" style="margin-bottom:20px;">
+        <label class="col-sm-2 control-label">
+          Từ khóa:
+        </label>
+        <div class="col-sm-4">
+          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+        </div>
+        <label class="col-sm-2 control-label">
+          Từ khóa:
+        </label>
+        <div class="col-sm-4">
+          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+        </div>
+        <label class="col-sm-2 control-label">
+          Thể thức văn bản:
+        </label>
+        <div class="col-sm-4">
+          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+        </div>
+        <label class="col-sm-2 control-label">
+          Tình trạng hiệu lực:
+        </label>
+        <div class="col-sm-4">
+          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+        </div>
+        <label class="col-sm-2 control-label">
+          Người tạo:
+        </label>
+        <div class="col-sm-4">
+          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+        </div>
+        <label class="col-sm-2 control-label">
+          Ngày hiệu lực:
+        </label>
+        <div class="col-sm-4">
+          <input kendo-date-picker k-format="'dd/MM/yyyy'" style="width:120px"
+            k-ng-model="vm.searchCriteria.NgayBSFrom" />
+          <span style="margin: 0 5px;">-</span>
+          <input kendo-date-picker k-format="'dd/MM/yyyy'" style="width:120px"
+            k-ng-model="vm.searchCriteria.NgayBSTo" />
+        </div>
+        <label class="col-sm-2 control-label">
+          Thẩm quyền ban hành:
+        </label>
+        <div class="col-sm-4">
+          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default btn-sm" ng-click="vm.search()">
+              <i class="fa fa-search font-green-jungle right-5"></i>
+              Tìm
+            </button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="vm.resetSearch()">
+              <i class="fas fa-sync-alt right-5"></i>
+            </button>
+            <a class="btn btn-sm btn-default" href="javascript:;" ng-csv="getArray" add-bom="vm.export.bom"
+              csv-header='vm.header' csv-column-order="csv.columnOrder" filename="{{vm.filename}}.csv">
+              <i class="fas fa-file-excel font-green-jungle right-5"></i>
+              In sổ văn bản
+            </a>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered table-scroll" style="margin-bottom: 0px">
+          <thead class="thead-light">
+            <tr class="heading">
+              <th style="min-width:140px">
+                Số ký hiệu
+              </th>
+              <th style="min-width:200px">
+                Trích yếu
+              </th>
+              <th style="min-width:100px">
+                Sổ văn bản
+              </th>
+              <th style="min-width:150px">
+                Ngày ban hành
+              </th>
+              <th style="min-width:150px">
+                Thể thức văn bản
+              </th>
+              <th style="min-width:160px;">
+                Tình trạng hiệu lực
+              </th>
+              <th style="min-width:81px" ng-if="vm.isVanThu()"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.items">
+              <td>
+                <a href="javascript:;" ng-click="vm.actions.openItem(item)">
+                  {{ item.SoKyHieu }}
+                </a>
+              </td>
+              <td>
+                <a href="javascript:;" ng-click="vm.actions.openItem(item)">
+                  {{ item.NoiDung }}
+                </a>
+              </td>
+              <td>
+                <a href="javascript:;" ng-click="vm.actions.openItem(item)">
+                  {{ item.SoVanBan }}
+                </a>
+              </td>
+
+              <td style="width:120px">
+                <a href="javascript:;" ng-click="vm.actions.openItem(item)">
+                  {{ item.NgayBanHanh }}
+                </a>
+              </td>
+              <td>
+                {{ item.TheThucVanBan }}
+              </td>
+              <td>
+                {{ item.TinhTrangHieuLuc }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .control-label {
+    margin-top: 5px;
+    margin-bottom: 30px;
+  }
+</style>
