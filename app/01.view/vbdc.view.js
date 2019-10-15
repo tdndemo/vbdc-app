@@ -1,6 +1,6 @@
 angular.module("vbdc-app").controller("vbdc.view.controller", [
-  "$scope",
-  function($scope) {
+  "$scope", "vbdcService",
+  function ($scope, $vbdcService) {
     $scope.vm = {};
     $scope.vm.advancedSearchMode = false;
     $scope.vm.items = [{ SoKyHieu: 1 }];
@@ -8,5 +8,14 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
     $scope.vm.toggleFilterPanel = (value) => {
       _.set($scope, "vm.advancedSearchMode", value);
     };
+
+    $scope.vm.search = function() {
+      $vbdcService.getItemsByCalm()
+        .then((data) => { 
+          console.log(data) 
+        })
+    }
+
+    $scope.vm.search();
   }
 ]);

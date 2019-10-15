@@ -12,11 +12,11 @@ app.config([
         data: { pageTitle: "", pageSubTitle: "" },
         views: {
           content: {
-            templateUrl: "app/01.view/vbdc.dashboard.html",
+            templateUrl: "$app/01.view/vbdc.dashboard.html",
             controller: "vbdc.dashboard.controller"
           },
           sidebar: {
-            templateUrl: "app/00.common/vbdc.sidebar.html"
+            templateUrl: "$app/00.common/vbdc.sidebar.html"
           }
         }
       })
@@ -26,11 +26,11 @@ app.config([
         data: { pageTitle: "", pageSubTitle: "" },
         views: {
           content: {
-            templateUrl: "app/01.view/vbdc.view.html",
+            templateUrl: "$app/01.view/vbdc.view.html",
             controller: "vbdc.view.controller"
           },
           sidebar: {
-            templateUrl: "app/00.common/vbdc.sidebar.html"
+            templateUrl: "$app/00.common/vbdc.sidebar.html"
           }
         }
       })
@@ -40,11 +40,11 @@ app.config([
         data: { pageTitle: "", pageSubTitle: "" },
         views: {
           content: {
-            templateUrl: "app/01.view/vbdc.form.html",
+            templateUrl: "$app/01.view/vbdc.form.html",
             controller: "vbdc.form.controller"
           },
           sidebar: {
-            templateUrl: "app/00.common/vbdc.sidebar.html"
+            templateUrl: "$app/00.common/vbdc.sidebar.html"
           }
         }
       });
