@@ -1,7 +1,12 @@
 .pull-right{
     float: right;
 }
-
+.full-width{
+    width: 100%;
+}
 .right-5{
     margin-right: 5px;
+}
+.page-wrapper{
+    overflow: auto;
 }
