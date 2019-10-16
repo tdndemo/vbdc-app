@@ -1,4 +1,4 @@
-angular.module("vbdc-app").controller("vbdc.form.controller", function($scope, metadataService) {
+angular.module("vbdc-app").controller("vbdc.form.controller", function($scope, metadataService, $location) {
   $scope.vm = {
     document: {
       Nam: new Date().getFullYear()
@@ -10,13 +10,16 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function($scope, m
       isNew: function(){
         return true;
       }
-    },
-    actions : {
-      canUpdateRequestDetail: function(){
-        return true;
-      }
-    }
+    }    
   }; 
+  $scope.vm.actions = {
+    canUpdateRequestDetail: function(){
+      return true;
+    },
+    goBack: function(){
+      $location.path("/view");
+    }
+  }
   $scope.vm.optLoaiVanBan = {
     dataValueField: "Id",
     dataTextField: "Title",
