@@ -5,3 +5,6 @@
 .right-5{
     margin-right: 5px;
 }
+.page-wrapper{
+    overflow: auto;
+}
