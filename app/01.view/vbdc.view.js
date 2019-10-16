@@ -10,7 +10,7 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
     };
 
     $scope.vm.search = function() {
-      $vbdcService.getAllWithCaml()
+      $vbdcService.getAllWithCaml("DocumentMatadata", ["ID", "Title"], "vbdc")
         .then((data) => { 
           console.log(data) 
         })

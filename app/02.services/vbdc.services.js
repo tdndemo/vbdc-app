@@ -4,6 +4,7 @@ angular.module("vbdc-app").factory("vbdcService",
     "$q", "$injector", "$http",
     function ($q, $injector, $http) {
       var lib = {};
+
       lib.getAllUserInSites = function () {
         var dfd = $q.defer();
         var restUrl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/siteusers";
@@ -85,38 +86,60 @@ angular.module("vbdc-app").factory("vbdcService",
       //   return dfd.promise;
       // };
 
-      lib.getAllWithCaml = function () {
+      lib.getAllWithCaml = function (listName, arrayProperties, site, paging, camlQ) {
         var dfd = $q.defer();
-        var clientContext = new SP.ClientContext(_spPageContextInfo.webAbsoluteUrl + "/vbdc");
-        var list = clientContext.get_web().get_lists().getByTitle("DocumentMatadata");
+        var result = [];
+        var sortColumn = "Modified";
+        var clientContext = new SP.ClientContext(_spPageContextInfo.webAbsoluteUrl + "/" + site);
+        var list = clientContext.get_web().get_lists().getByTitle(listName);
         var camlQuery = new SP.CamlQuery();
-        camlQuery.set_viewXml(
-          "<View><Query>" +
-          "<OrderBy><FieldRef Name=\"Modified\" Ascending=\"FALSE\"/></OrderBy>" +
-          "</Query>" +
-          "<RowLimit>1000</RowLimit>" +
-          "</View>");
+        if (paging) {
+          var position = new SP.ListItemCollectionPosition();
+          position.set_pagingInfo(paging);
+          camlQuery.set_listItemCollectionPosition(position);
+        }
+        if (camlQ) {
+          camlQuery.set_viewXml(camlQ)
+        } else {
+          camlQuery.set_viewXml(
+            "<View><Query>" +
+            "<OrderBy><FieldRef Name=\"Modified\" Ascending=\"FALSE\"/></OrderBy>" +
+            "</Query>" +
+            "<RowLimit>1</RowLimit>" +
+            "</View>");
+        }
+
         var items = list.getItems(camlQuery);
         clientContext.load(items);
         clientContext.executeQueryAsync(function () {
-          var itemArray = [];
           var itemEnumerator = items.getEnumerator();
           while (itemEnumerator.moveNext()) {
+            var row = {};
             var item = itemEnumerator.get_current();
-            var id = item.get_item("ID");
-            var title = item.get_item("Title");
-            itemArray.push(id + ": " + title);
+            _.forEach(arrayProperties, (a) => {
+              row["" + a] = item.get_item("" + a);
+            })
+            result.push(row);
           }
-          dfd.resolve(items);
+          if (items.get_listItemCollectionPosition()) {
+            result.nextPagingInfo = items.get_listItemCollectionPosition().get_pagingInfo();
+          } else {
+            result.nextPagingInfo = null;
+          }
+          if (items.itemAt(0)) {
+            if (_.isDate(items.itemAt(0).get_item(sortColumn))) {
+              result.previousPagingInfo = "PagedPrev=TRUE&Paged=TRUE&p_ID=" + items.itemAt(0).get_item('ID') + "&p_" + sortColumn + "=" + encodeURIComponent(items.itemAt(0).get_item(sortColumn).toJSON());
+            } else {
+              result.previousPagingInfo = "PagedPrev=TRUE&Paged=TRUE&p_ID=" + items.itemAt(0).get_item('ID') + "&p_" + sortColumn + "=" + encodeURIComponent(items.itemAt(0).get_item(sortColumn));
+            }
+          }
+          dfd.resolve(result);
         }, function (sender, args) { console.log(args.get_message()); });
         return dfd.promise;
       }
-
       return lib;
     }
   ]);
-
-
 
 function getBinary(url) {
   var xhr = new XMLHttpRequest();
