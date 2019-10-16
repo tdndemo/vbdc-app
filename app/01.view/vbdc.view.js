@@ -10,7 +10,7 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
     };
 
     $scope.vm.search = function() {
-      $vbdcService.getItemsByCalm()
+      $vbdcService.getAllWithCaml()
         .then((data) => { 
           console.log(data) 
         })
