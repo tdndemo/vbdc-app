@@ -30,7 +30,20 @@
             </div>
             <div class="portlet-body">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tabGeneral">                        
+                    <div class="tab-pane active" id="tabGeneral">
+                        <div class="row ng-scope" ng-if="vm.errors.length > 0" style="padding: 15px 0">
+                            <div class="col-sm-12">
+                                <div class="note note-danger note-bordered" style="margin-bottom: 0px">
+                                    <h5 class="bold uppercase">Vui lòng điền đầy đủ thông tin vào các trường có dấu <span class="font-red-thunderbird">*</span>:</h5><p></p>
+                                    <ul>
+                                        <li ng-repeat="error in vm.errors">
+                                            <span class="bold">{{error.Field}}</span> : {{error.Message}}
+                                        </li>
+                                    </ul>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>                        
                         <div class="row ng-scope" ng-if="(vm.isEdit) || !vm.canPreviewDocument()">
                             <div class="col-sm-12">
                                 <div class="portlet box bg-grey bg-font-grey fx-portlet">
@@ -54,7 +67,7 @@
                                                                 <div ng-if="vm.actions.canUpdateRequestDetail()"
                                                                     class="ng-scope">
                                                                     <tree-dropdown-list multi-select="false"
-                                                                        data-source="vm.departments"
+                                                                        tree-data-source="vm.departments"
                                                                         ng-change="vm.actions.changeDocumentTypes()"
                                                                         ng-model="vm.document.DonViBienSoan">
                                                                     </tree-dropdown-list>

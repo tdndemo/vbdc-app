@@ -7,7 +7,7 @@
                 require: "?ngModel",
                 scope: {
                     multiSelect: "=",
-                    dataSource: "=",
+                    treeDataSource: "=",
                     noCheckNotes: "=",
                     mode: "@",
                 },
@@ -16,7 +16,7 @@
                         initControl($scope, element, attr, modelCtrl);
                     });
 
-                    $scope.$watch("dataSource", function (newValue, oldValue) {
+                    $scope.$watch("treeDataSource", function (newValue, oldValue) {
                         if (newValue && newValue.length > 0) {
                             initControl($scope, element, attr, modelCtrl);
                         }
@@ -58,7 +58,7 @@
 
                     $scope.setSelectedItems = function (ctrlID, seletedOptions, dataSource, updateModel) {
                         if (!dataSource) {
-                            var tmp = _.cloneDeep($scope.dataSource);
+                            var tmp = _.cloneDeep($scope.treeDataSource);
                             dataSource = [];
                             _.forEach(tmp, function (item) {
                                 dataSource.push(_.mapKeys(item, function (value, key) {
@@ -182,7 +182,7 @@
         var isIDMode = _.get($scope, "mode") === "id";
 
         // CHUẨN BỊ DATA SOURCE
-        var tmp = _.cloneDeep($scope.dataSource);
+        var tmp = _.cloneDeep($scope.treeDataSource);
         var dataSource = [];
         _.forEach(tmp, function (item) {
             dataSource.push(_.mapKeys(item, function (value, key) {
