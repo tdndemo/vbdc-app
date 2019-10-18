@@ -1,65 +1,57 @@
 <!DOCTYPE html>
 <html ng-app="vbdc-app">
-  <head> test 
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3"
-    />
-    <title>Sidebar template</title>
 
-    <link rel="stylesheet" href="framework/bootstrap.min.css" />
-    <script src="framework/jquery.min.js"></script>
-    <script src="framework/bootstrap.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
-      crossorigin="anonymous"
-    />
-    <script src="framework/angular.js"></script>
-    <script src="framework/angular-ui-router.min.js"></script>
-    <script src="framework/lodash.js"></script>
-    <link rel="stylesheet" href="framework/kendo-UI/css/kendo.custom.min.css" />
-    <script
-      type="text/javascript"
-      src="framework/kendo-UI/js/kendo.custom.min.js"
-    ></script>
+<head> test
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3" />
+  <title>Sidebar template</title>
 
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/custom.css" />
-    <link rel="stylesheet" href="css/components.css" />
-    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-  </head>
+  <link rel="stylesheet" href="framework/bootstrap.min.css" />
+  <script src="framework/jquery.min.js"></script>
+  <script src="framework/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+  <script src="framework/angular.js"></script>
+  <script src="framework/angular-ui-router.min.js"></script>
+  <script src="framework/lodash.js"></script>
+  <link rel="stylesheet" href="framework/kendo-UI/css/kendo.custom.min.css" />
+  <script type="text/javascript" src="framework/kendo-UI/js/kendo.custom.min.js"></script>
+  <script type="text/javascript" src="framework/moment.js"></script>
 
-  <body>
-    <div class="page-wrapper ice-theme toggled">
-      <div ui-view="sidebar"></div>
-      <!-- page-content  -->
-      <main class="page-content pt-2">
-        <div class="form-group col-md-12">
-          <vbdc-header></vbdc-header>
-        </div>
-        <hr />
-        <div class="form-group col-md-12">
-          <div ui-view="content"></div>
-        </div>
-        <div id="overlay" class="overlay"></div>
-      </main>
-      <!-- page-content" -->
-    </div>
-    <!-- page-wrapper -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+</head>
 
-    <!-- using online scripts -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-      crossorigin="anonymous"
-    ></script>
-    <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<body>
+  <div class="page-wrapper ice-theme toggled">
+    <div ui-view="sidebar"></div>
+    <!-- page-content  -->
+    <main class="page-content pt-2">
+      <div class="form-group col-md-12">
+        <vbdc-header></vbdc-header>
+      </div>
+      <hr />
+      <div class="form-group col-md-12">
+        <div ui-view="content"></div>
+      </div>
+      <div id="overlay" class="overlay"></div>
+    </main>
+    <!-- page-content" -->
+  </div>
+  <!-- page-wrapper -->
 
-    <script type="text/javascript" src="App/js/vbdc.js"></script>
-  </body>
+  <!-- using online scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+  <script type="text/javascript" src="App/js/vbdc.js"></script>
+</body>
+
 </html>

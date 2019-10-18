@@ -3,10 +3,10 @@ angular.module("vbdc-app").factory("vbdcService", [
   "$q",
   "$injector",
   "$http",
-  function($q, $injector, $http) {
+  function ($q, $injector, $http) {
     var lib = {};
 
-    lib.getAllUserInSites = function() {
+    lib.getAllUserInSites = function () {
       var dfd = $q.defer();
       var restUrl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/siteusers";
       $http
@@ -15,17 +15,17 @@ angular.module("vbdc-app").factory("vbdcService", [
             Accept: "application/json;odata=verbose"
           }
         })
-        .success(function(data) {
+        .success(function (data) {
           dfd.resolve(_.get(data, "d.results"));
         })
-        .error(function(error) {
+        .error(function (error) {
           console.log(error);
           dfd.resolve(null);
         });
       return dfd.promise;
     };
 
-    lib.getAllWithCaml = function(
+    lib.getAllWithCaml = function (
       listName,
       arrayProperties,
       site,
@@ -53,17 +53,17 @@ angular.module("vbdc-app").factory("vbdcService", [
       } else {
         camlQuery.set_viewXml(
           "<View><Query>" +
-            '<OrderBy><FieldRef Name="Modified" Ascending="FALSE"/></OrderBy>' +
-            "</Query>" +
-            "<RowLimit>1</RowLimit>" +
-            "</View>"
+          '<OrderBy><FieldRef Name="Modified" Ascending="FALSE"/></OrderBy>' +
+          "</Query>" +
+          "<RowLimit>25</RowLimit>" +
+          "</View>"
         );
       }
 
       var items = list.getItems(camlQuery);
       clientContext.load(items);
       clientContext.executeQueryAsync(
-        function() {
+        function () {
           var itemEnumerator = items.getEnumerator();
           while (itemEnumerator.moveNext()) {
             var row = {};
@@ -106,14 +106,14 @@ angular.module("vbdc-app").factory("vbdcService", [
           }
           dfd.resolve(result);
         },
-        function(sender, args) {
+        function (sender, args) {
           console.log(args.get_message());
         }
       );
       return dfd.promise;
     };
 
-    lib.deleteItem = function(id, site, listName) {
+    lib.deleteItem = function (id, site, listName) {
       var clientContext = new SP.ClientContext(
         _spPageContextInfo.webAbsoluteUrl + "/" + site
       );
@@ -124,16 +124,16 @@ angular.module("vbdc-app").factory("vbdcService", [
       var item = list.getItemById(id);
       item.deleteObject();
       clientContext.executeQueryAsync(
-        function() {
+        function () {
           console.log("Item #" + id + " deleted successfully!");
         },
-        function(sender, args) {
+        function (sender, args) {
           alert(args.get_message());
         }
       );
     };
 
-    lib.getById = function(id, site, listName) {
+    lib.getById = function (id, site, listName) {
       var clientContext = new SP.ClientContext(
         _spPageContextInfo.webAbsoluteUrl + "/" + site
       );
@@ -144,74 +144,74 @@ angular.module("vbdc-app").factory("vbdcService", [
       var item = list.getItemById(id); // get item with ID == 1
       clientContext.load(item);
       clientContext.executeQueryAsync(
-        function() {
+        function () {
           // onSuccess
           var title = item.get_item("Title");
           alert(title);
         },
-        function(sender, args) {
+        function (sender, args) {
           // onError
           alert(args.get_message());
         }
       );
     };
 
-    lib.uploadFile = function(arrayBuffer, fileName, listName, folderPath) {      
+    lib.uploadFile = function (arrayBuffer, fileName, listName, folderPath) {
       var dfd = $q.defer();
-      var clientContext = new SP.ClientContext(_spPageContextInfo.siteAbsoluteUrl + "/vbdc");  
-      var oWeb = clientContext.get_web();  
-      var oList = oWeb.get_lists().getByTitle(listName);      
-      var bytes = new Uint8Array(arrayBuffer);  
-      var i, length, out = '';  
-      for (i = 0, length = bytes.length; i < length; i += 1) {  
-          out += String.fromCharCode(bytes[i]);  
-      }  
-      var base64 = btoa(out);      
-      var createInfo = new SP.FileCreationInformation();  
-      createInfo.set_content(base64);  
+      var clientContext = new SP.ClientContext(_spPageContextInfo.siteAbsoluteUrl + "/vbdc");
+      var oWeb = clientContext.get_web();
+      var oList = oWeb.get_lists().getByTitle(listName);
+      var bytes = new Uint8Array(arrayBuffer);
+      var i, length, out = '';
+      for (i = 0, length = bytes.length; i < length; i += 1) {
+        out += String.fromCharCode(bytes[i]);
+      }
+      var base64 = btoa(out);
+      var createInfo = new SP.FileCreationInformation();
+      createInfo.set_content(base64);
       createInfo.set_url(folderPath + "/" + fileName);
-      var uploadedDocument = oList.get_rootFolder().get_files().add(createInfo);      
-      clientContext.load(uploadedDocument, "ListItemAllFields");  
+      var uploadedDocument = oList.get_rootFolder().get_files().add(createInfo);
+      clientContext.load(uploadedDocument, "ListItemAllFields");
       //clientContext.load(createInfo);
       clientContext.executeQueryAsync(
-        function(data){
+        function (data) {
           // onSuccess
           dfd.resolve(uploadedDocument);
-        }, 
-        function(sender, args){
+        },
+        function (sender, args) {
           // onError
           console.log(args.get_message());
           dfd.resolve({});
         }
       );
-      return dfd.promise;    
+      return dfd.promise;
     }
 
-    lib.saveItem = function(itemData, listName) {
+    lib.saveItem = function (itemData, listName) {
       var dfd = $q.defer();
       var clientContext = new SP.ClientContext(_spPageContextInfo.siteAbsoluteUrl + "/vbdc");
-      var oList = clientContext.get_web().get_lists().getByTitle(listName);  
+      var oList = clientContext.get_web().get_lists().getByTitle(listName);
       var oListItem;
-      if(_.get(itemData, "Id")){
-        oListItem = oList.getItemById(_.get(itemData, "Id"));                
+      if (_.get(itemData, "Id")) {
+        oListItem = oList.getItemById(_.get(itemData, "Id"));
       }
-      else{
+      else {
         var itemCreateInfo = new SP.ListItemCreationInformation();
-        oListItem = oList.addItem(itemCreateInfo);         
-      }        
-      _.forEach(itemData, function(value, key){
-        if(key != "Id"){
+        oListItem = oList.addItem(itemCreateInfo);
+      }
+      _.forEach(itemData, function (value, key) {
+        if (key != "Id") {
           oListItem.set_item(key, value);
-        }        
+        }
       });
-      oListItem.update();  
-      clientContext.load(oListItem);          
-      clientContext.executeQueryAsync(        
-        function(){
+      oListItem.update();
+      clientContext.load(oListItem);
+      clientContext.executeQueryAsync(
+        function () {
           // onSuccess
           dfd.resolve(oListItem);
-        }, 
-        function(sender, args){
+        },
+        function (sender, args) {
           // onError
           console.log(args.get_message());
           dfd.resolve({});

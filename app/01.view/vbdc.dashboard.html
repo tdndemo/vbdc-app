@@ -5,10 +5,10 @@
         <div class="card-body-icon">
           <i class="fas fa-book"></i>
         </div>
-        <div class="mr-5">100 Văn bản</div>
+        <div class="mr-5" style="font-size: 14px;">Tổng số văn bản: {{vm.items.length || 0}}</div>
       </div>
       <a class="card-footer text-white clearfix small z-1" href="#/view">
-        <span class="float-left">Xem chi tiết</span>
+        <span class="float-left" style="font-size: 14px;">Xem chi tiết</span>
         <span class="float-right">
           <i class="fas fa-angle-right"></i>
         </span>
@@ -21,10 +21,10 @@
         <div class="card-body-icon">
           <i class="far fa-paper-plane"></i>
         </div>
-        <div class="mr-5">11 Văn bản hiệu lực</div>
+        <div class="mr-5" style="font-size: 14px;">Văn bản hiệu lực: {{vm.itemsActive.length || 0}}</div>
       </div>
       <a class="card-footer text-white clearfix small z-1" href="#">
-        <span class="float-left">Xem chi tiết</span>
+        <span class="float-left" style="font-size: 14px;">Xem chi tiết</span>
         <span class="float-right">
           <i class="fas fa-angle-right"></i>
         </span>
@@ -37,10 +37,10 @@
         <div class="card-body-icon">
           <i class="far fa-calendar-times"></i>
         </div>
-        <div class="mr-5">5 Văn bản hết hiệu lực</div>
+        <div class="mr-5" style="font-size: 14px;">Văn bản hết hiệu lực: {{vm.itemsDeactive.length || 0}}</div>
       </div>
       <a class="card-footer text-white clearfix small z-1" href="#">
-        <span class="float-left">Xem chi tiết</span>
+        <span class="float-left" style="font-size: 14px;">Xem chi tiết</span>
         <span class="float-right">
           <i class="fas fa-angle-right"></i>
         </span>
@@ -53,10 +53,10 @@
         <div class="card-body-icon">
           <i class="fas fa-wrench"></i>
         </div>
-        <div class="mr-5">Thiết lập</div>
+        <div class="mr-5" style="font-size: 14px;">Thiết lập</div>
       </div>
       <a class="card-footer text-white clearfix small z-1" href="#">
-        <span class="float-left">Xem chi tiết</span>
+        <span class="float-left" style="font-size: 14px;">Xem chi tiết</span>
         <span class="float-right">
           <i class="fas fa-angle-right"></i>
         </span>
@@ -67,17 +67,20 @@
 
 <div class="card">
   <div class="card-header">
-    <span class="card-link" data-toggle="collapse" href="#collapseOne">
+    <span class="card-link" data-toggle="collapse" href="#table">
       <i class="fas fa-file-alt" style="margin-right: 10px;"></i>
       <span style="font-size: 17px;font-weight: 600;">Văn bản mới ban hành</span>
     </span>
   </div>
-  <div id="collapseOne" class="collapse show" data-parent="#accordion">
+  <div id="table" class="collapse show" data-parent="#accordion">
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-hover table-bordered table-scroll" style="margin-bottom: 0px">
           <thead class="thead-light">
             <tr class="heading">
+              <th style="width:40px">
+                STT
+              </th>
               <th style="min-width:140px">
                 Số ký hiệu
               </th>
@@ -101,6 +104,11 @@
           </thead>
           <tbody>
             <tr ng-repeat="item in vm.items">
+              <td style="text-align: center;">
+                <a href="javascript:;" ng-click="vm.actions.openItem(item)">
+                  {{ $index + 1 }}
+                </a>
+              </td>
               <td>
                 <a href="javascript:;" ng-click="vm.actions.openItem(item)">
                   {{ item.SoKyHieu }}
@@ -116,11 +124,8 @@
                   {{ item.SoVanBan }}
                 </a>
               </td>
-
               <td style="width:120px">
-                <a href="javascript:;" ng-click="vm.actions.openItem(item)">
-                  {{ item.NgayBanHanh }}
-                </a>
+                {{ item.NgayBanHanh | formatDate:"DD/MM/YYYY"}}
               </td>
               <td>
                 {{ item.TheThucVanBan }}
@@ -136,27 +141,22 @@
   </div>
 </div>
 <div class="card" style="margin-top:15px;">
-    <div class="card-header">
-      <span class="card-link" data-toggle="collapse" href="#collapseOne">
-        <i class="fas fa-chart-line" style="margin-right: 10px;"></i>
-        <span style="font-size: 17px;font-weight: 600;">Biểu đồ số lượng văn bản phát hành</span>
-      </span>
-    </div>
-    <div id="collapseOne" class="collapse show" data-parent="#accordion">
-      <div class="card-body">
-          <div>
-              <div kendo-chart
-                   k-legend="{ position: 'bottom' }"
-                   k-series-defaults="{ type: 'line' }"
-                   k-series="[
+  <div class="card-header">
+    <span class="card-link" data-toggle="collapse" href="#bieudo">
+      <i class="fas fa-chart-line" style="margin-right: 10px;"></i>
+      <span style="font-size: 17px;font-weight: 600;">Biểu đồ số lượng văn bản phát hành</span>
+    </span>
+  </div>
+  <div id="bieudo" class="collapse show" data-parent="#accordion">
+    <div class="card-body">
+      <div>
+        <div kendo-chart k-legend="{ position: 'bottom' }" k-series-defaults="{ type: 'line' }" k-series="[
                                    { field: 'nuclear', name: 'Nuclear electricity' },
                                    { field: 'hydro', name: 'Hydro electricity' },
                                    { field: 'wind', name: 'Wind electricity' }
-                               ]"
-                   k-data-source="electricity"
-                   k-series-hover="onSeriesHover"
-                   style="height: 450px;" ></div>
-          </div>
+                               ]" k-data-source="electricity" k-series-hover="onSeriesHover" style="height: 450px;">
+        </div>
       </div>
     </div>
   </div>
+</div>
