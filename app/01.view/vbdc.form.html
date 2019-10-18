@@ -495,7 +495,7 @@
                                                             <div class="col-sm-10">
                                                                 <div
                                                                     ng-show="vm.form.isNew() || vm.actions.canUpdateRequestDetail() || vm.document.VanBanDinhKem.length > 0">
-                                                                    <fx-file-attach f-list-name="VanBanDinhKem"
+                                                                    <!-- <fx-file-attach f-list-name="VanBanDinhKem"
                                                                         f-site-url="https://eoffice.fecon.com.vn/vanbandinhche"
                                                                         f-item-code="" f-control="vm.attachmentCtrl"
                                                                         ng-model="vm.document.VanBanDinhKem"
@@ -508,7 +508,8 @@
                                                                         fx-file-attach-converter=""
                                                                         fx-file-attach-manual-upload=""
                                                                         class="ng-pristine ng-untouched ng-valid ng-isolate-scope ng-not-empty">                                                                        
-                                                                    </fx-file-attach>
+                                                                    </fx-file-attach> -->
+                                                                    <input type="file" id="fileInput" />
                                                                 </div>
                                                                 <span class="form-control-static ng-hide"
                                                                     ng-hide="vm.form.isNew() || vm.actions.canUpdateRequestDetail() || vm.document.RequestAttachments.length > 0">Không

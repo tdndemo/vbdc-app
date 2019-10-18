@@ -156,6 +156,70 @@ angular.module("vbdc-app").factory("vbdcService", [
       );
     };
 
+    lib.uploadFile = function(arrayBuffer, fileName, listName, folderPath) {      
+      var dfd = $q.defer();
+      var clientContext = new SP.ClientContext(_spPageContextInfo.siteAbsoluteUrl + "/vbdc");  
+      var oWeb = clientContext.get_web();  
+      var oList = oWeb.get_lists().getByTitle(listName);      
+      var bytes = new Uint8Array(arrayBuffer);  
+      var i, length, out = '';  
+      for (i = 0, length = bytes.length; i < length; i += 1) {  
+          out += String.fromCharCode(bytes[i]);  
+      }  
+      var base64 = btoa(out);      
+      var createInfo = new SP.FileCreationInformation();  
+      createInfo.set_content(base64);  
+      createInfo.set_url(folderPath + "/" + fileName);
+      var uploadedDocument = oList.get_rootFolder().get_files().add(createInfo);      
+      clientContext.load(uploadedDocument, "ListItemAllFields");  
+      //clientContext.load(createInfo);
+      clientContext.executeQueryAsync(
+        function(data){
+          // onSuccess
+          dfd.resolve(uploadedDocument);
+        }, 
+        function(sender, args){
+          // onError
+          console.log(args.get_message());
+          dfd.resolve({});
+        }
+      );
+      return dfd.promise;    
+    }
+
+    lib.saveItem = function(itemData, listName) {
+      var dfd = $q.defer();
+      var clientContext = new SP.ClientContext(_spPageContextInfo.siteAbsoluteUrl + "/vbdc");
+      var oList = clientContext.get_web().get_lists().getByTitle(listName);  
+      var oListItem;
+      if(_.get(itemData, "Id")){
+        oListItem = oList.getItemById(_.get(itemData, "Id"));                
+      }
+      else{
+        var itemCreateInfo = new SP.ListItemCreationInformation();
+        oListItem = oList.addItem(itemCreateInfo);         
+      }        
+      _.forEach(itemData, function(value, key){
+        if(key != "Id"){
+          oListItem.set_item(key, value);
+        }        
+      });
+      oListItem.update();  
+      clientContext.load(oListItem);          
+      clientContext.executeQueryAsync(        
+        function(){
+          // onSuccess
+          dfd.resolve(oListItem);
+        }, 
+        function(sender, args){
+          // onError
+          console.log(args.get_message());
+          dfd.resolve({});
+        }
+      );
+      return dfd.promise;
+    }
+
     return lib;
   }
 ]);
