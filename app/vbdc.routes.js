@@ -5,6 +5,11 @@ app.config([
   function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/view");
 
+    var sidebar = {
+      templateUrl: "$app/00.common/vbdc.sidebar.html",
+      controller: "vbdc.sidebar.controller"
+    }
+
     $stateProvider
       // view
       .state("vbdc-dashboard", {
@@ -15,9 +20,7 @@ app.config([
             templateUrl: "$app/01.view/vbdc.dashboard.html",
             controller: "vbdc.dashboard.controller"
           },
-          sidebar: {
-            templateUrl: "$app/00.common/vbdc.sidebar.html"
-          }
+          sidebar: sidebar
         }
       })
       // view
@@ -29,9 +32,7 @@ app.config([
             templateUrl: "$app/01.view/vbdc.view.html",
             controller: "vbdc.view.controller"
           },
-          sidebar: {
-            templateUrl: "$app/00.common/vbdc.sidebar.html"
-          }
+          sidebar: sidebar
         }
       })
       // form
@@ -43,9 +44,7 @@ app.config([
             templateUrl: "$app/01.view/vbdc.form.html",
             controller: "vbdc.form.controller"
           },
-          sidebar: {
-            templateUrl: "$app/00.common/vbdc.sidebar.html"
-          }
+          sidebar: sidebar
         }
       });
   }

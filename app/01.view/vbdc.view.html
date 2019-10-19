@@ -5,11 +5,11 @@
       <span style="font-size: 17px;font-weight: 600;">Danh sách văn bản định chế</span>
     </span>
     <button type="button" class="btn btn-sm" ng-click="vm.toggleFilterPanel(true);" ng-show="!vm.advancedSearchMode"
-      style="float: right; padding: 2px; font-size:14px;">
+      style="float: right; padding: 2px; font-size:14px;background-color: rgba(0,0,0,-0.97);">
       <i class="fas fa-filter font-green-jungle right-5"></i>Tìm kiếm
     </button>
     <button type="button" class="btn btn-sm" ng-click="vm.toggleFilterPanel(false);" ng-show="vm.advancedSearchMode"
-      style="float: right; padding: 2px; font-size:14px;">
+      style="float: right; padding: 2px; font-size:14px;background-color: rgba(0,0,0,-0.97);">
       <i class="fas fa-times" style="margin-right: 5px;color: red"></i>
       Đóng tìm kiếm
     </button>
@@ -33,37 +33,44 @@
           Thể thức văn bản:
         </label>
         <div class="col-sm-4">
-          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+          <select k-ng-model="vm.searchCriteria.TheThucVanBan" kendo-multi-select class="full-width"
+            k-options="vm.optLoaiVanBan" style="display: none;">
+          </select>
         </div>
         <label class="col-sm-2 control-label">
           Tình trạng hiệu lực:
         </label>
         <div class="col-sm-4">
-          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+          <select k-ng-model="vm.searchCriteria.TTHL" kendo-multi-select k-options="vm.optTinhTrangHieuLuc"
+            data-role="dropdownlist" style="display: none;">
+          </select>
         </div>
         <label class="col-sm-2 control-label">
           Người tạo:
         </label>
         <div class="col-sm-4">
-          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+          <people-picker ng-model="vm.searchCriteria.NguoiTao" model-type="object" multi-select="true"
+            model-set-type="replace" principal-account-type="User" />
         </div>
         <label class="col-sm-2 control-label">
-          Ngày hiệu lực:
+          Ngày ban hành:
         </label>
         <div class="col-sm-4">
           <input kendo-date-picker k-format="'dd/MM/yyyy'" style="width:120px"
-            k-ng-model="vm.searchCriteria.NgayBSFrom" />
+            k-ng-model="vm.searchCriteria.NgayBHFrom" />
           <span style="margin: 0 5px;">-</span>
           <input kendo-date-picker k-format="'dd/MM/yyyy'" style="width:120px"
-            k-ng-model="vm.searchCriteria.NgayBSTo" />
+            k-ng-model="vm.searchCriteria.NgayBHTo" />
         </div>
         <label class="col-sm-2 control-label">
           Thẩm quyền ban hành:
         </label>
         <div class="col-sm-4">
-          <input maxlength="100" type="text" class="form-control input-sm" ng-model="vm.searchCriteria.Keyword" />
+          <select k-ng-model="vm.searchCriteria.ThamQuyenKy" class="full-width" k-options="vm.optThamQuyenKy"
+            kendo-multi-select>
+          </select>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12" style="margin-top: -15px;">
           <div class="col-sm-6">
             <div class="btn-group pull-right">
               <button type="button" class="btn btn-default btn-sm" ng-click="vm.search()">
@@ -72,6 +79,7 @@
               </button>
               <button type="button" class="btn btn-default btn-sm" ng-click="vm.resetSearch()">
                 <i class="fas fa-sync-alt right-5"></i>
+                Đặt lại
               </button>
               <a class="btn btn-sm btn-default" href="javascript:;" ng-csv="getArray" add-bom="vm.export.bom"
                 csv-header='vm.header' csv-column-order="csv.columnOrder" filename="{{vm.filename}}.csv">

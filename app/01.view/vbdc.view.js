@@ -1,6 +1,6 @@
 angular.module("vbdc-app").controller("vbdc.view.controller", [
-  "$scope", "vbdcService",
-  function ($scope, $vbdcService) {
+  "$scope", "vbdcService", "metadataService",
+  function ($scope, $vbdcService, $metadataService) {
     $scope.vm = {};
     $scope.vm.advancedSearchMode = false;
 
@@ -40,9 +40,9 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
           query = temp;
         }
       }
-      if (_.get(criteria, "DocumenTypes.length") > 0) {
+      if (_.get(criteria, "TheThucVanBan.length") > 0) {
         var temp = "";
-        var orquery = _.map(_.map(criteria.DocumenTypes, "Title"), function (title) {
+        var orquery = _.map(_.map(criteria.TheThucVanBan, "Title"), function (title) {
           return String.format("<Eq><FieldRef Name='TheThucVanBan' /><Value Type='Text'>{0}</Value></Eq>",
             title);
         });
@@ -59,62 +59,45 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
           query = temp;
         }
       }
-      if (_.get(criteria, "NgayBSFrom")) {
+
+      if (_.get(criteria, "TTHL.length") > 0) {
+        var temp = "";
+        var orquery = _.map(_.map(criteria.TTHL, "Title"), function (status) {
+          return String.format("<Eq><FieldRef Name='TinhTrangHieuLuc' /><Value Type='Text'>{0}</Value></Eq>",
+            status);
+        });
+        _.forEach(orquery, function (item) {
+          if (temp) {
+            temp = "<Or>" + temp + item + "</Or>";
+          } else {
+            temp = item;
+          }
+        });
         if (query) {
-          query = "<And>" + query + "<Geq><FieldRef Name='NgayThangVanBan' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBSFrom")) + "</Value></Geq></And>";
+          query = "<And>" + query + temp + "</And>";
         } else {
-          query = "<Geq><FieldRef Name='NgayThangVanBan' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBSFrom")) + "</Value></Geq>";
+          query = temp;
+        }
+      }
+      if (_.get(criteria, "NgayBHFrom")) {
+        if (query) {
+          query = "<And>" + query + "<Geq><FieldRef Name='NgayBanHanh' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBHFrom")) + "</Value></Geq></And>";
+        } else {
+          query = "<Geq><FieldRef Name='NgayBanHanh' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBHFrom")) + "</Value></Geq>";
         }
       }
 
-      if (_.get(criteria, "NgayBSTo")) {
+      if (_.get(criteria, "NgayBHTo")) {
         if (query) {
-          query = "<And>" + query + "<Leq><FieldRef Name='NgayThangVanBan' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBSTo")) + "</Value></Leq></And>";
+          query = "<And>" + query + "<Leq><FieldRef Name='NgayBanHanh' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBHTo")) + "</Value></Leq></And>";
         } else {
-          query = "<Leq><FieldRef Name='NgayThangVanBan' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBSTo")) + "</Value></Leq>";
+          query = "<Leq><FieldRef Name='NgayBanHanh' /><Value IncludeTimeValue='FALSE' Type='DateTime'>" + dateFormat(_.get(criteria, "NgayBHTo")) + "</Value></Leq>";
         }
       }
-      if (_.get(criteria, "BoPhanBienSoans.length") > 0) {
+      if (_.get(criteria, "NguoiTao.length") > 0) {
         var temp = "";
-        var orquery = _.map(_.map(criteria.BoPhanBienSoans, "Code"), function (Code) {
-          return "<Eq><FieldRef Name='BoPhanBienSoanText' /><Value Type='Text'>" + ";#" + Code + ";#" + "</Value></Eq>";
-        });
-        _.forEach(orquery, function (item) {
-          if (temp) {
-            temp = "<Or>" + temp + item + "</Or>";
-          } else {
-            temp = item;
-          }
-        });
-        if (query) {
-          query = "<And>" + query + temp + "</And>";
-        } else {
-          query = temp;
-        }
-      }
-      if (_.get(criteria, "Statuses.length") > 0) {
-        var temp = "";
-        var orquery = _.map(_.get(criteria, "Statuses"), function (status) {
-          return String.format("<Eq><FieldRef Name='TinhTrangHieuLuc' /><Value Type='Text'>{0}</Value></Eq>",
-            status.Code);
-        });
-        _.forEach(orquery, function (item) {
-          if (temp) {
-            temp = "<Or>" + temp + item + "</Or>";
-          } else {
-            temp = item;
-          }
-        });
-        if (query) {
-          query = "<And>" + query + temp + "</And>";
-        } else {
-          query = temp;
-        }
-      }
-      if (_.get(criteria, "CreatedBy.length") > 0) {
-        var temp = "";
-        var orquery = _.map(_.map(criteria.CreatedBy, "Id"), function (authorId) {
-          return String.format("<Eq><FieldRef Name='IdNguoiTao' /><Value Type='Number'>{0}</Value></Eq>",
+        var orquery = _.map(_.map(criteria.NguoiTao, "Id"), function (authorId) {
+          return String.format("<Eq><FieldRef Name = 'Author' LookupId = 'TRUE'/><Value Type='Lookup'>{0}</Value></Eq> ",
             authorId);
         });
         _.forEach(orquery, function (item) {
@@ -130,11 +113,11 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
           query = temp;
         }
       }
-      if (_.get(criteria, "Nguoiki.length") > 0) {
+      if (_.get(criteria, "ThamQuyenKy.length") > 0) {
         var temp = "";
-        var orquery = _.map(_.map(criteria.Nguoiki, "Id"), function (nk) {
-          return String.format("<Eq><FieldRef Name='IdNguoiKy' /><Value Type='Number'>{0}</Value></Eq>",
-            nk);
+        var orquery = _.map(_.map(criteria.ThamQuyenKy, "Title"), function (status) {
+          return String.format("<Eq><FieldRef Name='ThamQuyenKy' /><Value Type='Text'>{0}</Value></Eq>",
+            status);
         });
         _.forEach(orquery, function (item) {
           if (temp) {
@@ -163,6 +146,83 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
           })
       }
 
+    $scope.vm.resetSearch = function () {
+      _.set($scope, "vm.searchCriteria", {});
+      $scope.vm.search();
+    }
+
     $scope.vm.search();
+
+    $scope.vm.optLoaiVanBan = {
+      dataValueField: "Title",
+      dataTextField: "Title",
+      dataSource:
+      {
+        transport: {
+          read: function (options) {
+            $metadataService.getAll("TheThucVanBan", "Active ne 0")
+              .then(function (data) {
+                if (data.length > 0) {
+                  options.success(data);
+                } else {
+                  options.success([]);
+                }
+              })
+              .catch(function () {
+                options.success([]);
+              });
+          }
+        }
+      },
+      filter: "contains"
+    }
+
+    $scope.vm.optTinhTrangHieuLuc = {
+      dataValueField: "Id",
+      dataTextField: "Title",
+      dataSource:
+      {
+        transport: {
+          read: function (options) {
+            $metadataService.getAll("TinhTrangHieuLuc", "Active ne 0")
+              .then(function (data) {
+                if (data.length > 0) {
+                  options.success(data);
+                } else {
+                  options.success([]);
+                }
+              })
+              .catch(function () {
+                options.success([]);
+              });
+          }
+        }
+      },
+      filter: "contains"
+    }
+
+    $scope.vm.optThamQuyenKy = {
+      dataValueField: "Id",
+      dataTextField: "Title",
+      dataSource:
+      {
+        transport: {
+          read: function (options) {
+            $metadataService.getAll("ThamQuyenBanHanh", "Active ne 0")
+              .then(function (data) {
+                if (data.length > 0) {
+                  options.success(data);
+                } else {
+                  options.success([]);
+                }
+              })
+              .catch(function () {
+                options.success([]);
+              });
+          }
+        }
+      },
+      filter: "contains"
+    }
   }
 ]);

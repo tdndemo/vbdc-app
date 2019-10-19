@@ -13,20 +13,20 @@
         <img class="img-responsive img-rounded" src="App/img/user.jpg" alt="User picture" />
       </div>
       <div class="user-info">
-        <span class="user-name">Jhon
-          <strong>Smith</strong>
+        <span class="user-name">
+          <strong>{{vm.userProfile.Name}}</strong>
         </span>
-        <span class="user-role">Administrator</span>
+        <span class="user-role">{{vm.userProfile.Email}}</span>
       </div>
     </div>
     <!-- sidebar-menu  -->
     <div class=" sidebar-item sidebar-menu">
       <ul>
         <li class="nav-item">
-            <a href="#/dashboard">
-                <i class="fas fa-home"></i>
-                <span class="menu-text">Trang chủ</span>
-              </a>
+          <a href="#/dashboard">
+            <i class="fas fa-home"></i>
+            <span class="menu-text">Trang chủ</span>
+          </a>
         </li>
         <li class="header-menu">
           <span>Thông tin</span>
@@ -48,8 +48,8 @@
                 <a href="#">Văn bản hết hiệu lực</a>
               </li>
               <li>
-                  <a ui-sref="vbdc-form">Tạo mới văn bản</a>
-                </li>
+                <a ui-sref="vbdc-form">Tạo mới văn bản</a>
+              </li>
             </ul>
           </div>
         </li>
