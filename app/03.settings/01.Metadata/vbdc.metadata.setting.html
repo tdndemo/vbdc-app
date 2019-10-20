@@ -1,0 +1,101 @@
+<div class="card">
+  <div class="card-header">
+    <span class="card-link" data-toggle="collapse" href="#collapseOne">
+      <i class="fas fa-file-alt" style="margin-right: 10px;"></i>
+      <span style="font-size: 17px;font-weight: 600;">{{vm.viewName}}</span>
+    </span>
+  </div>
+  <div id="collapseOne" class="collapse show" data-parent="#accordion">
+    <div class="card-body">
+      <div class="table-scrollable" ng-if="vm.dataLoaded" style="margin: 0px !important;">
+        <table class="table table-hover table-bordered table-scroll">
+          <thead>
+            <tr class="heading">
+              <th style="width:30px;">
+                #
+              </th>
+              <th>
+                Tên
+              </th>
+              <th style="width:100px;">
+                Mã
+              </th>
+              <th style="width:120px;">
+                Thứ tự hiển thị
+              </th>
+              <th style="width:40px;">
+                Kích hoạt
+              </th>
+              <th style="width:60px;">
+
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.items" ng-if="(vm.items.length > 0) && vm.dataLoaded">
+              <td>
+                <span>{{$index + 1}}</span>
+              </td>
+              <td>
+                <span ng-if="!item.isEdit">{{item.Title}}</span>
+                <input ng-if="item.isEdit" type="text" ng-model="item.Title" class="full-width" />
+              </td>
+              <td>
+                <span ng-if="!item.isEdit">{{item.Code}}</span>
+                <input ng-if="item.isEdit" type="text" ng-model="item.Code" class="full-width" />
+              </td>
+              <td>
+                <span ng-if="!item.isEdit">{{item.ItemOrder}}</span>
+                <div ng-if="item.isEdit"><input kendo-numeric-text-box k-min="0" k-ng-model="item.ItemOrder"
+                    style="width:100%; " /></div>
+              </td>
+              <td style="text-align: center;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.Active" ng-if="item.isEdit"
+                  id="_active{{$index+1}}" style="height: 20px" />
+                <input type="checkbox" class="k-checkbox" ng-model="item.Active" ng-if="!item.isEdit" disabled
+                  style="height: 20px" />
+                <label class="k-checkbox-label" for="_active{{$index+1}}"></label>
+              </td>
+              <td>
+                <a href="javascript:;" ng-if="!item.isEdit" ng-click="vm.actions.editItem(item)" class="btn btn-sm"><i
+                    class="fas fa-edit text-blue"></i></a>
+                <a href="javascript:;" ng-if="!item.isEdit" ng-click="vm.actions.deleteItem(item)" class="btn btn-sm"><i
+                    class="fa fa-trash text-red"></i></a>
+                <a href="javascript:;" ng-if="item.isEdit" ng-click="vm.actions.save(item)" class="btn btn-sm"><i
+                    class="fa fa-save text-green"></i> Save</a>
+              </td>
+            </tr>
+            <tr style="position:relative;z-index:1;" ng-enter="vm.actions.createNew(newitem)">
+              <td>
+                {{IDNews}}
+              </td>
+              <td>
+                <input type="text" ng-model="newitem.Title" class="full-width" />
+              </td>
+              <td>
+                <input type="text" ng-model="newitem.Code" class="full-width" />
+              </td>
+              <td>
+                <input kendo-numeric-text-box k-min="0" k-ng-model="newitem.ItemOrder" style="width: 100%;" />
+              </td>
+              <td style="text-align: center;">
+                <input type="checkbox" class="k-checkbox" ng-model="newitem.Active" id="_activenews"
+                  style="height: 20px" />
+                <label class="k-checkbox-label" for="_activenews"></label>
+              </td>
+              <td>
+                <button class="btn btn-default btn-sm" type="button" ng-click="vm.actions.save(newitem)">
+                  <i class="fa fa-plus text-green"> </i>
+                  Tạo mới
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-12" ng-if="!vm.dataLoaded">
+        Đang tải ...
+      </div>
+    </div>
+  </div>
+</div>

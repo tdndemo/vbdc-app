@@ -2,7 +2,7 @@
   <div class="card-header">
     <span class="card-link" data-toggle="collapse" href="#collapseOne">
       <i class="fas fa-file-alt" style="margin-right: 10px;"></i>
-      <span style="font-size: 17px;font-weight: 600;">Danh sách văn bản định chế</span>
+      <span style="font-size: 17px;font-weight: 600;">{{vm.viewName}}</span>
     </span>
     <button type="button" class="btn btn-sm" ng-click="vm.toggleFilterPanel(true);" ng-show="!vm.advancedSearchMode"
       style="float: right; padding: 2px; font-size:14px;background-color: rgba(0,0,0,-0.97);">
@@ -41,8 +41,8 @@
           Tình trạng hiệu lực:
         </label>
         <div class="col-sm-4">
-          <select k-ng-model="vm.searchCriteria.TTHL" kendo-multi-select k-options="vm.optTinhTrangHieuLuc"
-            data-role="dropdownlist" style="display: none;">
+          <select ng-disabled="vm.isActiveView() || vm.isDeActiveView()" k-ng-model="vm.searchCriteria.TTHL"
+            kendo-multi-select k-options="vm.optTinhTrangHieuLuc" data-role="dropdownlist" style="display: none;">
           </select>
         </div>
         <label class="col-sm-2 control-label">

@@ -150,11 +150,15 @@
   <div id="bieudo" class="collapse show" data-parent="#accordion">
     <div class="card-body">
       <div>
-        <div kendo-chart k-legend="{ position: 'bottom' }" k-series-defaults="{ type: 'line' }" k-series="[
+        <div kendo-chart k-legend="{ position: 'bottom' }"
+          k-series-defaults="{ type: 'line', labels:{visible: true, background: 'transparent', field: 'month', format:'p0', template: '#= value#'}}"
+          k-series="[
                                    { field: 'all', name: 'Văn bản đã ban hành' },
                                    { field: 'active', name: 'Văn bản hiệu lực' },
                                    { field: 'deactive', name: 'Văn bản hết hiệu lực' }
-                               ]" k-data-source="electricity" k-series-hover="onSeriesHover" style="height: 450px;">
+                               ]" k-data-source="electricity"
+          k-category-axis="{field: 'month', labels:{font: 'bold 12px sans-serif', rotation: '-45'},majorGridLines:{visible: true}, line:{visible: true}}"
+          style="height: 450px;">
         </div>
       </div>
     </div>

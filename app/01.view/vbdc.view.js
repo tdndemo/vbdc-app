@@ -1,12 +1,64 @@
 angular.module("vbdc-app").controller("vbdc.view.controller", [
-  "$scope", "vbdcService", "metadataService",
-  function ($scope, $vbdcService, $metadataService) {
+  "$scope", "vbdcService", "metadataService", "$state",
+  function ($scope, $vbdcService, $metadataService, $state) {
     $scope.vm = {};
     $scope.vm.advancedSearchMode = false;
+
+    $scope.vm.export = "Export Excel";
+    $scope.csv = {
+      bom: "\ufeff",
+      columnOrder: ["SoKyHieu", "TrichYeu", "NgayBanHan", "TheThucVanBan", "DonViBienSoan", "TinhTrangHieuLuc", "ThamQuyenKy"]
+    };
+    $scope.vm.filename = "Danh sách văn bản định chế_" + moment(new Date()).format('DD.MM.YYYY');
+    $scope.vm.header = ["Số ký hiệu", "Trích yếu", "Sổ văn bản", "Ngày hiệu lực", "Thể thức văn bản", "Thẩm quyền ban hành", "Người tạo", "Đơn vị biên soạn", "Tình trạng hiệu lực"];
+    function buildDataForCsv() {
+      return _.map(_.get($scope, "vm.itemsE"), function (item) {
+        var NgayHieuLuc1 = "";
+        if (item.NgayHieuLuc) {
+          NgayHieuLuc1 = moment(item.NgayHieuLuc).format("DD/MM/YYYY");
+        }
+        return {
+          SoKyHieu: _.get(item, "SoKyHieu"),
+          TrichYeu: _.get(item, "NoiDung"),
+          SoVanBan: _.get(item, "SoVanBan"),
+          NgayHieuLuc: NgayHieuLuc1,
+          TheThucVanBan: _.get(item, "TheThucVanBan"),
+          ThamQuyenKy: _.get(item, "ThamQuyenKy"),
+          TenNguoiTao: _.get(item, "TenNguoiTao"),
+          DonViBienSoan: _.get(item, "DonViBienSoan[0].Title"),
+          TinhTrangHieuLuc: _.get(item, "TinhTrangHieuLuc"),
+        };
+      });
+    }
 
     $scope.vm.toggleFilterPanel = (value) => {
       _.set($scope, "vm.advancedSearchMode", value);
     };
+
+    $scope.vm.isActiveView = function () {
+      return _.get($state, "current.name") === "vbdc-active-view";
+    }
+
+    $scope.vm.isDeActiveView = function () {
+      return _.get($state, "current.name") === "vbdc-deactive-view";
+    }
+
+    $scope.vm.isViewAll = function () {
+      return _.get($state, "current.name") === "vbdc-all-view";
+    }
+
+    $scope.vm.getViewName = function () {
+      if (_.get($state, "current.name") === "vbdc-view") {
+        $scope.vm.viewName = "Tra cứu văn bản";
+      } else if ($scope.vm.isActiveView()) {
+        $scope.vm.viewName = "Văn bản còn hiệu lực";
+      } else if ($scope.vm.isDeActiveView()) {
+        $scope.vm.viewName = "Văn bản hết hiệu lực";
+      } else if ($scope.vm.isViewAll()) {
+        $scope.vm.viewName = "Toàn bộ văn bản";
+      }
+    }
+    $scope.vm.getViewName();
 
     $scope.vm.buildQuery = function () {
       var criteria = _.get($scope, "vm.searchCriteria");
@@ -140,7 +192,27 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
 
       $scope.vm.search = function () {
         $vbdcService.getAllWithCaml("ThuocTinhVanBan", ["ID", "Title", "SoKyHieu", "NoiDung", "SoVanBan", "NgayBanHanh", "TheThucVanBan", "TinhTrangHieuLuc"],
-          "vbdc", undefined, $scope.vm.buildQuery())
+          "vbdc", undefined, _.replace($scope.vm.buildQuery(), ">25<", ">3000<"))
+          .then((data) => {
+            _.set($scope, "vm.itemsE", data);
+            $scope.getArray = buildDataForCsv();
+          })
+
+        $metadataService.getAll("TinhTrangHieuLuc", "Active ne 0").then(function (tthl) {
+          _.set($scope, "vm.tthl", tthl);
+          if ($scope.vm.isActiveView()) {
+            _.set($scope, "vm.searchCriteria.TTHL", [_.find(tthl, function (t) {
+              return t.Title === "Hiệu lực";
+            })])
+          }
+          if ($scope.vm.isDeActiveView()) {
+            _.set($scope, "vm.searchCriteria.TTHL", [_.find(tthl, function (t) {
+              return t.Title === "Hết hiệu lực";
+            })])
+          }
+          return $vbdcService.getAllWithCaml("ThuocTinhVanBan", ["ID", "Title", "SoKyHieu", "NoiDung", "SoVanBan", "NgayBanHanh", "TheThucVanBan", "TinhTrangHieuLuc"],
+            "vbdc", undefined, $scope.vm.buildQuery())
+        })
           .then((data) => {
             _.set($scope, "vm.items", data);
           })

@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
     content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3" />
-  <title>Sidebar template</title>
+  <title>Quản lý văn bản</title>
   <!-- build:sharepoint-css -->
   <SharePoint:CssLink runat="server" Version="15" __designer:Preview=""
     __designer:Values="&lt;P N=&#39;UIVersion&#39; T=&#39;&amp;gt;=15&#39; /&gt;&lt;P N=&#39;ID&#39; ID=&#39;1&#39; T=&#39;ctl00&#39; /&gt;&lt;P N=&#39;Page&#39; ID=&#39;2&#39; /&gt;&lt;P N=&#39;TemplateControl&#39; R=&#39;2&#39; /&gt;&lt;P N=&#39;AppRelativeTemplateSourceDirectory&#39; R=&#39;-1&#39; /&gt;" />
@@ -30,11 +30,16 @@
   <link rel="stylesheet" href="App/plugins/ztree/css/zTreeStyle/zTreeStyle.css" />
   <script type="text/javascript" src="App/framework/kendo-UI/js/kendo.custom.min.js"></script>
   <script type="text/javascript" src="App/framework/moment.js"></script>
+  <script type="text/javascript" src="App/framework/camljs.js"></script>
+  <script type="text/javascript" src="App/framework/angular-sanitize.js"></script>
+  <script type="text/javascript" src="App/framework/ng-csv.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"
+    type="text/css" media="all" />
 
   <link rel="stylesheet" href="App/app/css/main.css" />
   <link rel="stylesheet" href="App/app/css/custom.css" />
   <link rel="stylesheet" href="App/app/css/components.css" />
-  <link rel="shortcut icon" type="image/png" href="App/img/favicon.png" />
+  <!--<link rel="shortcut icon" type="image/png" href="App/img/favicon.png" />-->
 </head>
 
 <body>

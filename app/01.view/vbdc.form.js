@@ -214,6 +214,7 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
             },
             filter: "contains"
         },
+
         $scope.vm.optTinhTrangHieuLuc = {
             dataValueField: "Id",
             dataTextField: "Title",

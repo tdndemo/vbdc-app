@@ -24,17 +24,13 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
 
     $scope.vm.search();
 
-    $scope.onSeriesHover = function (e) {
-      kendoConsole.log(kendo.format("event :: seriesHover ({0} : {1})", e.series.name, e.value));
-    };
-
     $scope.electricity = new kendo.data.DataSource({
       transport: {
         read: function (options) {
           options.success([
             {
               "country": "Demo Company",
-              "year": "2008",
+              "month": "8/2019",
               "unit": "Văn bản",
               "all": 100,
               "active": 60,
@@ -42,7 +38,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2007",
+              "month": "7/2019",
               "unit": "Văn bản",
               "all": 120,
               "active": 80,
@@ -50,7 +46,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2006",
+              "month": "6/2019",
               "unit": "Văn bản",
               "all": 90,
               "active": 50,
@@ -58,7 +54,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2005",
+              "month": "5/2019",
               "unit": "Văn bản",
               "all": 60,
               "active": 20,
@@ -66,7 +62,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2004",
+              "month": "4/2019",
               "unit": "Văn bản",
               "all": 140,
               "active": 60,
@@ -74,7 +70,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2003",
+              "month": "3/2019",
               "unit": "Văn bản",
               "all": 100,
               "active": 60,
@@ -82,7 +78,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2002",
+              "month": "2/2019",
               "unit": "Văn bản",
               "all": 120,
               "active": 60,
@@ -90,7 +86,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2001",
+              "month": "1/2019",
               "unit": "Văn bản",
               "all": 110,
               "active": 70,
@@ -98,7 +94,7 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
             },
             {
               "country": "Demo Company",
-              "year": "2000",
+              "month": "9/2019",
               "unit": "Văn bản",
               "all": 100,
               "active": 60,
@@ -108,8 +104,8 @@ angular.module("vbdc-app").controller("vbdc.dashboard.controller", [
         }
       },
       sort: {
-        field: "year",
+        field: "month",
         dir: "asc"
-      }
+      },
     });
   }]);
