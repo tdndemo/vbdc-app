@@ -2,24 +2,14 @@
   <div class="card-header" style="padding: .4rem 1.25rem;">
     <span class="card-link" data-toggle="collapse" href="#collapseOne">
       <i class="fas fa-file-alt" style="margin-right: 10px;"></i>
-      <span style="font-size: 17px;font-weight: 600;"
-        >Tạo mới văn bản định chế</span
-      >
+      <span style="font-size: 17px;font-weight: 600;">Tạo mới văn bản định chế</span>
     </span>
     <div class="pull-right">
-      <button
-        type="button"
-        class="btn btn-sm right-5"
-        ng-click="vm.actions.saveItem()"
-        ng-if="vm.actions.canUpdateRequestDetail()"
-      >
+      <button type="button" class="btn btn-sm right-5" ng-click="vm.actions.saveItem()"
+        ng-if="vm.actions.canUpdateRequestDetail()">
         <i class="fa fa-save font-green-jungle right-5"></i> Lưu lại
       </button>
-      <button
-        type="button"
-        class="btn btn-sm right-5"
-        ng-click="vm.actions.goBack();"
-      >
+      <button type="button" class="btn btn-sm right-5" ng-click="vm.actions.goBack();">
         <i class="fas fa-times"></i>
         Đóng lại
       </button>
@@ -27,7 +17,7 @@
   </div>
   <div id="collapseOne" class="collapse show" data-parent="#accordion">
     <div class="card-body">
-      <div class="note note-danger note-bordered" style="margin-bottom: 20px">
+      <div class="note note-danger note-bordered" style="margin-bottom: 20px" ng-if="vm.errors.length > 0">
         <h5 class="bold uppercase">
           Vui lòng điền đầy đủ thông tin vào các trường có dấu
           <span class="font-red-thunderbird">*</span>:
@@ -45,61 +35,33 @@
         <div class="row" style="margin-bottom:20px;">
           <label class="col-sm-2 control-label">
             Đơn vị biên soạn:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+            <span class="font-red-thunderbird ng-scope" ng-if="vm.actions.canUpdateRequestDetail()">*</span>
           </label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()">
-              <tree-dropdown-list
-                multi-select="false"
-                tree-data-source="vm.departments"
-                ng-change="vm.actions.changeDocumentTypes()"
-                ng-model="vm.document.DonViBienSoan"
-              >
+              <tree-dropdown-list multi-select="false" tree-data-source="vm.departments" ng-model="vm.DVBS">
               </tree-dropdown-list>
             </div>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
-          <label class="col-sm-2 control-label"
-            >Tên văn bản:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+          <label class="col-sm-2 control-label">Tên văn bản:
+            <span class="font-red-thunderbird ng-scope" ng-if="vm.actions.canUpdateRequestDetail()">*</span>
           </label>
           <div class="col-sm-4">
             <input
               class="form-control input-sm ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-empty ng-valid-maxlength"
-              ng-change="vm.actions.changeDocumentTypes()"
-              maxlength="250"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              ng-model="vm.document.TenVanBan"
-            />
+              ng-change="vm.actions.changeDocumentTypes()" maxlength="250" ng-if="vm.actions.canUpdateRequestDetail()"
+              ng-model="vm.document.TenVanBan" />
           </div>
-          <label class="col-sm-2 control-label"
-            >Thể thức văn bản:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+          <label class="col-sm-2 control-label">Thể thức văn bản:
+            <span class="font-red-thunderbird ng-scope" ng-if="vm.actions.canUpdateRequestDetail()">*</span>
           </label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <select
-                k-ng-model="vm.document.TheThucVanBan"
-                k-value-primitive="true"
-                k-on-change="vm.actions.changeDocumentTypes()"
-                kendo-drop-down-list=""
-                class="full-width"
-                k-options="vm.optLoaiVanBan"
-                style="display: none;"
-              >
+              <select k-ng-model="vm.document.TheThucVanBan" k-value-primitive="true"
+                k-on-change="vm.actions.changeDocumentTypes()" kendo-drop-down-list="" class="full-width"
+                k-options="vm.optLoaiVanBan" style="display: none;">
               </select>
             </div>
           </div>
@@ -107,84 +69,47 @@
         <div class="row" style="margin-bottom:20px;">
           <label class="col-sm-2 control-label">
             Sổ văn bản:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+            <span class="font-red-thunderbird ng-scope" ng-if="vm.actions.canUpdateRequestDetail()">*</span>
           </label>
           <div class="col-sm-4">
             <div>
-              <select
-                ng-model="vm.document.SoVanBan"
-                ng-if="vm.actions.canUpdateRequestDetail()"
-                k-ng-model="vm.tmp.SVB"
-                k-on-change="vm.actions.changeDocumentTypes()"
-                k-value-primitive="true"
-                kendo-drop-down-list=""
-                class="full-width ng-pristine ng-untouched ng-valid ng-scope ng-empty"
-                k-options="vm.optSoVanBan"
-                style="display: none;"
-              >
+              <select ng-model="vm.document.SoVanBan" ng-if="vm.actions.canUpdateRequestDetail()"
+                k-ng-model="vm.tmp.SVB" k-on-change="vm.actions.changeDocumentTypes()" k-value-primitive="true"
+                kendo-drop-down-list="" class="full-width ng-pristine ng-untouched ng-valid ng-scope ng-empty"
+                k-options="vm.optSoVanBan" style="display: none;">
               </select>
             </div>
           </div>
           <label class="col-sm-2 control-label">
             Số ký hiệu:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+            <span class="font-red-thunderbird ng-scope" ng-if="vm.actions.canUpdateRequestDetail()">*</span>
           </label>
           <div class="col-sm-4">
             <input
               class="form-control input-sm ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-empty ng-valid-maxlength"
-              maxlength="50"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              ng-model="vm.document.SoKyHieu"
-              ng-change="vm.actions.changeSubject()"
-            />
+              maxlength="50" ng-if="vm.actions.canUpdateRequestDetail()" ng-model="vm.document.SoKyHieu"
+              ng-change="vm.actions.changeSubject()" />
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
           <label class="col-sm-2 control-label">Năm văn bản:</label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-numeric-text-box=""
-                k-format="'####'"
-                k-min="1"
-                k-max="9999999"
-                k-on-change="vm.actions.changeDocumentTypes()"
-                k-ng-model="vm.document.NamVanBan"
-                class="full-width ng-isolate-scope k-input"
-                data-role="numerictextbox"
-                role="spinbutton"
-                type="text"
-                style="display: none;"
-              />
+              <input kendo-numeric-text-box="" k-format="'####'" k-min="1" k-max="9999999"
+                k-on-change="vm.actions.changeDocumentTypes()" k-ng-model="vm.document.NamVanBan"
+                class="full-width ng-isolate-scope k-input" data-role="numerictextbox" role="spinbutton" type="text"
+                style="display: none;" />
             </div>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
-          <label class="col-sm-2 control-label"
-            >Trích yếu:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+          <label class="col-sm-2 control-label">Trích yếu:
           </label>
           <div class="col-sm-10">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <textarea
-                class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-                fx-auto-size=""
-                ng-model="vm.document.NoiDung"
-                ng-change="vm.actions.changeSubject()"
-                style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 50px;"
-              >
+              <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" fx-auto-size=""
+                ng-model="vm.document.NoiDung" ng-change="vm.actions.changeSubject()"
+                style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 50px;">
               </textarea>
             </div>
           </div>
@@ -192,28 +117,16 @@
         <div class="row" style="margin-bottom:20px;">
           <label class="col-sm-2 control-label">Người biên soạn:</label>
           <div class="col-sm-4">
-            <people-picker
-              ng-model="vm.document.NguoiBienSoan"
-              model-type="object"
-              multi-select="false"
-              model-set-type="replace"
-              principal-account-type="User"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              class="ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-not-empty"
-            >
+            <people-picker ng-model="vm.document.NguoiBienSoan" model-type="object" multi-select="false"
+              model-set-type="replace" principal-account-type="User" ng-if="vm.actions.canUpdateRequestDetail()"
+              class="ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-not-empty">
             </people-picker>
           </div>
           <label class="col-sm-2 control-label">Người nhận ủy quyền:</label>
           <div class="col-sm-4">
-            <people-picker
-              ng-model="vm.document.NguoiNhanUyQuyen"
-              model-type="object"
-              multi-select="false"
-              model-set-type="replace"
-              principal-account-type="User"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              class="ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-not-empty"
-            >
+            <people-picker ng-model="vm.document.NguoiNhanUyQuyen" model-type="object" multi-select="false"
+              model-set-type="replace" principal-account-type="User" ng-if="vm.actions.canUpdateRequestDetail()"
+              class="ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-not-empty">
             </people-picker>
           </div>
         </div>
@@ -223,144 +136,74 @@
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
               <input
                 class="form-control input-sm ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-empty ng-valid-maxlength"
-                maxlength="255"
-                ng-if="vm.actions.canUpdateRequestDetail()"
-                ng-model="vm.document.LanBanHanh"
-              />
+                maxlength="255" ng-if="vm.actions.canUpdateRequestDetail()" ng-model="vm.document.LanBanHanh" />
             </div>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
           <label class="col-sm-2 control-label">Lý do ban hành:</label>
           <div class="col-sm-10">
-            <textarea
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              class="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty"
-              fx-auto-size=""
+            <textarea ng-if="vm.actions.canUpdateRequestDetail()"
+              class="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" fx-auto-size=""
               ng-model="vm.document.LyDoBanHanh"
-              style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 50px;"
-            >
+              style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 50px;">
             </textarea>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
-          <label class="col-sm-2 control-label"
-            >Người ký:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+          <label class="col-sm-2 control-label">Người ký:
           </label>
           <div class="col-sm-4">
-            <people-picker
-              ng-model="vm.document.NguoiKy"
-              model-type="object"
-              multi-select="false"
-              model-set-type="replace"
-              principal-account-type="User"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              class="ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-not-empty"
-            >
+            <people-picker ng-model="vm.document.NguoiKy" model-type="object" multi-select="false"
+              model-set-type="replace" principal-account-type="User" ng-if="vm.actions.canUpdateRequestDetail()"
+              class="ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-not-empty">
             </people-picker>
           </div>
           <label class="col-sm-2 control-label">Ngày ký:</label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-date-picker=""
-                k-format="'dd/MM/yyyy'"
-                k-ng-model="vm.document.NgayKy"
-                class="ng-isolate-scope k-input"
-                type="text"
-                style="width: 100%;"
-              />
+              <input kendo-date-picker="" k-format="'dd/MM/yyyy'" k-ng-model="vm.document.NgayKy"
+                class="ng-isolate-scope k-input" type="text" style="width: 100%;" />
             </div>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
-          <label class="col-sm-2 control-label"
-            >Thẩm quyền ban hành:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+          <label class="col-sm-2 control-label">Thẩm quyền ban hành:
           </label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <select
-                k-ng-model="vm.document.ThamQuyenKy"
-                kendo-drop-down-list=""
-                class="full-width"
-                k-value-primitive="true"
-                k-options="vm.optThamQuyenKy"
-                data-role="dropdownlist"
-                style="display: none;"
-              >
+              <select k-ng-model="vm.document.ThamQuyenKy" kendo-drop-down-list="" class="full-width"
+                k-value-primitive="true" k-options="vm.optThamQuyenKy" data-role="dropdownlist" style="display: none;">
               </select>
             </div>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
-          <label class="col-sm-2 control-label"
-            >Tình trạng hiệu lực:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+          <label class="col-sm-2 control-label">Tình trạng hiệu lực:
           </label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <select
-                ng-model="vm.document.TinhTrangHieuLuc"
-                k-ng-model="vm.tmp.TTHL"
-                k-value-primitive="true"
-                kendo-drop-down-list=""
-                class="full-width ng-pristine ng-untouched ng-valid ng-empty ng-valid-parse"
-                k-options="vm.optTinhTrangHieuLuc"
-                data-role="dropdownlist"
-                style="display: none;"
-              >
+              <select ng-model="vm.document.TinhTrangHieuLuc" k-ng-model="vm.tmp.TTHL" k-value-primitive="true"
+                kendo-drop-down-list="" class="full-width ng-pristine ng-untouched ng-valid ng-empty ng-valid-parse"
+                k-options="vm.optTinhTrangHieuLuc" data-role="dropdownlist" style="display: none;">
               </select>
             </div>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
-          <label class="col-sm-2 control-label"
-            >Ngày hiệu lực:
-            <span
-              class="font-red-thunderbird ng-scope"
-              ng-if="vm.actions.canUpdateRequestDetail()"
-              >*</span
-            >
+          <label class="col-sm-2 control-label">Ngày hiệu lực:
           </label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-date-picker=""
-                k-format="'dd/MM/yyyy'"
-                k-ng-model="vm.document.NgayHieuLuc"
-                class="ng-isolate-scope k-input"
-                data-role="datepicker"
-                type="text"
-                style="width: 100%;"
-              />
+              <input kendo-date-picker="" k-format="'dd/MM/yyyy'" k-ng-model="vm.document.NgayHieuLuc"
+                class="ng-isolate-scope k-input" data-role="datepicker" type="text" style="width: 100%;" />
             </div>
           </div>
           <label class="col-sm-2 control-label">Ngày hết hiệu lực:</label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-date-picker=""
-                k-format="'dd/MM/yyyy'"
-                k-ng-model="vm.document.NgayHetHieuLuc"
-                class="ng-isolate-scope k-input"
-                data-role="datepicker"
-                type="text"
-                style="width: 100%;"
-              />
+              <input kendo-date-picker="" k-format="'dd/MM/yyyy'" k-ng-model="vm.document.NgayHetHieuLuc"
+                class="ng-isolate-scope k-input" data-role="datepicker" type="text" style="width: 100%;" />
             </div>
           </div>
         </div>
@@ -368,29 +211,15 @@
           <label class="col-sm-2 control-label">Ngày bị đình chỉ:</label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-date-picker=""
-                k-format="'dd/MM/yyyy'"
-                k-ng-model="vm.document.NgayDinhChi"
-                class="ng-isolate-scope k-input"
-                data-role="datepicker"
-                type="text"
-                style="width: 100%;"
-              />
+              <input kendo-date-picker="" k-format="'dd/MM/yyyy'" k-ng-model="vm.document.NgayDinhChi"
+                class="ng-isolate-scope k-input" data-role="datepicker" type="text" style="width: 100%;" />
             </div>
           </div>
           <label class="col-sm-2 control-label">Ngày bị hủy bỏ:</label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-date-picker=""
-                k-format="'dd/MM/yyyy'"
-                k-ng-model="vm.document.NgayBiHuyBo"
-                class="ng-isolate-scope k-input"
-                data-role="datepicker"
-                type="text"
-                style="width: 100%;"
-              />
+              <input kendo-date-picker="" k-format="'dd/MM/yyyy'" k-ng-model="vm.document.NgayBiHuyBo"
+                class="ng-isolate-scope k-input" data-role="datepicker" type="text" style="width: 100%;" />
             </div>
           </div>
         </div>
@@ -398,29 +227,15 @@
           <label class="col-sm-2 control-label">Ngày bị sửa đổi/Bổ sung:</label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-date-picker=""
-                k-format="'dd/MM/yyyy'"
-                k-ng-model="vm.document.NgaySuaDoi"
-                class="ng-isolate-scope k-input"
-                data-role="datepicker"
-                type="text"
-                style="width: 100%;"
-              />
+              <input kendo-date-picker="" k-format="'dd/MM/yyyy'" k-ng-model="vm.document.NgaySuaDoi"
+                class="ng-isolate-scope k-input" data-role="datepicker" type="text" style="width: 100%;" />
             </div>
           </div>
           <label class="col-sm-2 control-label">Ngày bị thay thế:</label>
           <div class="col-sm-4">
             <div ng-if="vm.actions.canUpdateRequestDetail()" class="ng-scope">
-              <input
-                kendo-date-picker=""
-                k-format="'dd/MM/yyyy'"
-                k-ng-model="vm.document.NgayBiThayThe"
-                class="ng-isolate-scope k-input"
-                data-role="datepicker"
-                type="text"
-                style="width: 100%;"
-              />
+              <input kendo-date-picker="" k-format="'dd/MM/yyyy'" k-ng-model="vm.document.NgayBiThayThe"
+                class="ng-isolate-scope k-input" data-role="datepicker" type="text" style="width: 100%;" />
             </div>
           </div>
         </div>
@@ -428,80 +243,93 @@
           <label class="col-sm-2 control-label">Văn bản đính kèm khác:</label>
           <div class="col-sm-10">
             <div
-              ng-show="vm.form.isNew() || vm.actions.canUpdateRequestDetail() || vm.document.VanBanDinhKem.length > 0"
-            >
-              <!-- <fx-file-attach f-list-name="VanBanDinhKem"
-                                                                                f-site-url="https://eoffice.fecon.com.vn/vanbandinhche"
-                                                                                f-item-code="" f-control="vm.attachmentCtrl"
-                                                                                ng-model="vm.document.VanBanDinhKem"
-                                                                                f-edit-mode="vm.actions.canUpdateRequestDetail()"
-                                                                                f-control-permission="{canEdit: true}"
-                                                                                f-file-permission="{canEdit: true, canRemove: true}"
-                                                                                f-on-uploaded="vm.actions.onAttachmentUploaded(fxEvent)"
-                                                                                f-on-updated="vm.actions.onAttachmentUpdated(fxEvent)"
-                                                                                f-on-removed="vm.actions.onAttachmentRemoved(fxEvent)"
-                                                                                fx-file-attach-converter=""
-                                                                                fx-file-attach-manual-upload=""
-                                                                                class="ng-pristine ng-untouched ng-valid ng-isolate-scope ng-not-empty">                                                                        
-                                                                            </fx-file-attach> -->
+              ng-show="vm.form.isNew() || vm.actions.canUpdateRequestDetail() || vm.document.VanBanDinhKem.length > 0">
               <input type="file" id="fileInput" />
             </div>
-            <span
-              class="form-control-static ng-hide"
-              ng-hide="vm.form.isNew() || vm.actions.canUpdateRequestDetail() || vm.document.RequestAttachments.length > 0"
-              >Không có dữ liệu.</span
-            >
+            <span class="form-control-static ng-hide"
+              ng-hide="vm.form.isNew() || vm.actions.canUpdateRequestDetail() || vm.document.RequestAttachments.length > 0">Không
+              có dữ liệu.</span>
           </div>
         </div>
         <div class="row" style="margin-bottom:20px;">
+          <label class="col-sm-2 control-label">Văn bản liên quan:</label>
           <div class="col-sm-12">
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Văn bản liên quan:</label>
-              <div class="col-sm-10">
-                <div
-                  class="row ng-isolate-scope"
-                  items="vm.document.VanBanLienQuan"
-                  f-on-search="vm.actions.onVanBanLienQuanSearch(eventArgs)"
-                  f-can-edit="vm.actions.canUpdateRequestDetail()"
-                  config="vm.config"
-                >
-                  <div class="col-sm-12">
-                    <!-- ngIf: items.length > 0 -->
-                    <!-- ngIf: !(vm.data.items.length > 0) && !fCanEdit() -->
-                    <!-- ngIf: fCanEdit() -->
-                    <div ng-if="fCanEdit()" class="ng-scope">
-                      <button
-                        type="button"
-                        class="btn btn-sm btn-default"
-                        ng-click="vm.actions.addRelatedDocuments()"
-                      >
-                        <i class="fa fa-search font-green right-5"></i>Thêm
+            <div class="table-scrollable" style="margin-top: 0px !important; ">
+              <table class="table table-advance table-bordered">
+                <thead>
+                  <tr class="heading">
+                    <th style="width: 30px;text-align:center">
+                      STT
+                    </th>
+                    <th style="width: 200px;">
+                      Loại
+                    </th>
+                    <th>
+                      Số, Ký hiệu
+                    </th>
+                    <th style="min-width: 350px;">
+                      Trích yếu
+                    </th>
+                    <th>
+                      Tình trạng hiệu lực
+                    </th>
+                    <th style="width: 50px;">
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in items">
+                    <td style="text-align:center">
+                      {{$index + 1}}
+                    </td>
+                    <td>
+                      <div ng-if="fCanEdit()">
+                        <select k-ng-model="item.LoaiLienQuan" k-value-primitive="true" class="full-width"
+                          kendo-drop-down-list k-options="vm.optLoaiVanBanLienQuan"></select>
+                      </div>
+                      <span ng-if="!fCanEdit()">
+                        {{item.LoaiLienQuan}}
+                      </span>
+                    </td>
+                    <td>
+                      <a href="javascript:;" ng-click="vm.actions.openItem(item)">
+                        {{item.SoKyHieu}}
+                      </a>
+
+                    </td>
+                    <td>
+                      <a href="javascript:;" ng-click="vm.actions.openItem(item)">
+                        {{item.NoiDung}}
+                      </a>
+
+                    </td>
+                    <td>
+                      {{item.TinhTrangHieuLuc}}
+                    </td>
+                    <td class="text-center" ng-if="vm.data.items.length > 0 && fCanEdit()">
+                      <button class="btn btn-xs btn-link" type="button"
+                        ng-click="vm.actions.removeItem(vm.data.items,$index);">
+                        Xóa
                       </button>
-                    </div>
-                    <!-- end ngIf: fCanEdit() -->
-                  </div>
-                </div>
-              </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+            <span ng-if="!(vm.data.items.length > 0) && !fCanEdit()" class="form-control-static">
+              Không có dữ liệu
+            </span>
+            <button type="button" class="btn btn-sm btn-default" ng-click="vm.actions.addRelatedDocuments()">
+              <i class="fa fa-search font-green right-5"></i>Thêm
+            </button>
           </div>
         </div>
-        <div class="row ng-scope" ng-if="vm.actions.canUpdateRequestDetail()">
-          <div class="col-sm-12">
-            <div class="form-group">
-              <label class="col-sm-2 control-label"></label>
-              <div class="col-sm-10">
-                <button
-                  type="button"
-                  class="btn btn-default btn-sm right-5"
-                  style="float:right;margin-bottom:-5px"
-                  ng-click="vm.actions.saveItem()"
-                >
-                  <i class="fa fa-save font-green-jungle right-5"></i>
-                  Lưu lại
-                </button>
-              </div>
-            </div>
-          </div>
+        <div ng-if="vm.actions.canUpdateRequestDetail()">
+          <button type="button" class="btn btn-default btn-sm right-5" style="float:right;margin-bottom:-5px"
+            ng-click="vm.actions.saveItem()">
+            <i class="fa fa-save font-green-jungle right-5"></i>
+            Lưu lại
+          </button>
         </div>
       </div>
     </div>
