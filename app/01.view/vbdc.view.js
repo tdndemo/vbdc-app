@@ -3,6 +3,8 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
   function ($scope, $vbdcService, $metadataService, $state) {
     $scope.vm = {};
     $scope.vm.advancedSearchMode = false;
+    $scope.vm.sizePage = 25;
+    $scope.vm.page = 1;
 
     $scope.vm.export = "Export Excel";
     $scope.csv = {
@@ -185,19 +187,12 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
         }
       }
       query = "<View><Query><OrderBy><FieldRef Name='Created' Ascending='FALSE'/></OrderBy><Where>" +
-        query + "</Where></Query><RowLimit>25</RowLimit></View>";
+        query + "</Where></Query><RowLimit>1</RowLimit></View>";
 
       return query;
     },
 
-      $scope.vm.search = function () {
-        $vbdcService.getAllWithCaml("ThuocTinhVanBan", ["ID", "Title", "SoKyHieu", "NoiDung", "SoVanBan", "NgayBanHanh", "TheThucVanBan", "TinhTrangHieuLuc"],
-          "vbdc", undefined, _.replace($scope.vm.buildQuery(), ">25<", ">3000<"))
-          .then((data) => {
-            _.set($scope, "vm.itemsE", data);
-            $scope.getArray = buildDataForCsv();
-          })
-
+      $scope.vm.search = function (position) {
         $metadataService.getAll("TinhTrangHieuLuc", "Active ne 0").then(function (tthl) {
           _.set($scope, "vm.tthl", tthl);
           if ($scope.vm.isActiveView()) {
@@ -211,10 +206,16 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
             })])
           }
           return $vbdcService.getAllWithCaml("ThuocTinhVanBan", ["ID", "Title", "SoKyHieu", "NoiDung", "SoVanBan", "NgayBanHanh", "TheThucVanBan", "TinhTrangHieuLuc"],
-            "vbdc", undefined, $scope.vm.buildQuery())
+            "vbdc", position ? position : undefined, $scope.vm.buildQuery())
         })
           .then((data) => {
             _.set($scope, "vm.items", data);
+            // $vbdcService.getAllWithCaml("ThuocTinhVanBan", ["ID", "Title", "SoKyHieu", "NoiDung", "SoVanBan", "NgayBanHanh", "TheThucVanBan", "TinhTrangHieuLuc"],
+            //   "vbdc", position ? position : undefined, _.replace($scope.vm.buildQuery(), ">25<", ">3000<"))
+            //   .then((data) => {
+            //     _.set($scope, "vm.itemsE", data);
+            //     $scope.getArray = buildDataForCsv();
+            //   })
           })
       }
 
@@ -224,6 +225,20 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
     }
 
     $scope.vm.search();
+
+    $scope.vm.goPrev = function () {
+      if ($scope.vm.page > 1) {
+        $scope.vm.page = $scope.vm.page - 1;
+      }
+      $scope.vm.search(_.get($scope.vm.items, "previousPagingInfo"));
+    }
+
+    $scope.vm.goNext = function () {
+      if (_.get($scope.vm.items, "nextPagingInfo")) {
+        $scope.vm.page = $scope.vm.page + 1;
+        $scope.vm.search(_.get($scope.vm.items, "nextPagingInfo"));
+      }
+    }
 
     $scope.vm.optLoaiVanBan = {
       dataValueField: "Title",

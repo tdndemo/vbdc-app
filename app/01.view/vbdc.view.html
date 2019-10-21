@@ -155,9 +155,11 @@
         <div style="float: right;margin-top: 5px;">
           <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-              <li class="disabled"><a class="page-link" href="#"> 1 - 25 </a></li>
-              <li class="page-item"><a class="page-link" href="#">Kế tiếp</a></li>
+              <li class="page-item"><a class="page-link" ng-click="vm.goPrev()" href="#">Trước</a></li>
+              <li class="disabled"><a class="page-link" href="#">
+                  {{vm.sizePage * vm.page -24}} - {{vm.sizePage * (vm.page - 1) + vm.items.length}}
+                </a></li>
+              <li class="page-item"><a class="page-link" ng-click="vm.goNext()" href="#">Kế tiếp</a></li>
             </ul>
           </nav>
         </div>

@@ -81,28 +81,9 @@ angular.module("vbdc-app").factory("vbdcService", [
             result.nextPagingInfo = null;
           }
           if (items.itemAt(0)) {
-            if (_.isDate(items.itemAt(0).get_item(sortColumn))) {
-              result.previousPagingInfo =
-                "PagedPrev=TRUE&Paged=TRUE&p_ID=" +
-                items.itemAt(0).get_item("ID") +
-                "&p_" +
-                sortColumn +
-                "=" +
-                encodeURIComponent(
-                  items
-                    .itemAt(0)
-                    .get_item(sortColumn)
-                    .toJSON()
-                );
-            } else {
-              result.previousPagingInfo =
-                "PagedPrev=TRUE&Paged=TRUE&p_ID=" +
-                items.itemAt(0).get_item("ID") +
-                "&p_" +
-                sortColumn +
-                "=" +
-                encodeURIComponent(items.itemAt(0).get_item(sortColumn));
-            }
+            result.previousPagingInfo =
+              "PagedPrev=TRUE&Paged=TRUE&p_ID=" +
+              items.itemAt(0).get_item("ID");
           }
           dfd.resolve(result);
         },
