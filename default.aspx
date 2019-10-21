@@ -4,18 +4,16 @@
 <html ng-app="vbdc-app">
 
 <head>
-  <meta name="WebPartPageExpansion" content="full" />
-  <meta charset="utf-8" />
+<meta name="WebPartPageExpansion" content="full" />
+<meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
     content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3" />
   <title>Quản lý văn bản</title>
   <!-- build:sharepoint-css -->
-  <SharePoint:CssLink runat="server" Version="15" __designer:Preview=""
-    __designer:Values="&lt;P N=&#39;UIVersion&#39; T=&#39;&amp;gt;=15&#39; /&gt;&lt;P N=&#39;ID&#39; ID=&#39;1&#39; T=&#39;ctl00&#39; /&gt;&lt;P N=&#39;Page&#39; ID=&#39;2&#39; /&gt;&lt;P N=&#39;TemplateControl&#39; R=&#39;2&#39; /&gt;&lt;P N=&#39;AppRelativeTemplateSourceDirectory&#39; R=&#39;-1&#39; /&gt;" />
-  <SharePoint:CssRegistration Name="Themable/corev15.css" runat="server" __designer:Preview=""
-    __designer:Values="&lt;P N=&#39;Name&#39; T=&#39;Themable/corev15.css&#39; /&gt;&lt;P N=&#39;ID&#39; ID=&#39;1&#39; T=&#39;ctl01&#39; /&gt;&lt;P N=&#39;Page&#39; ID=&#39;2&#39; /&gt;&lt;P N=&#39;TemplateControl&#39; R=&#39;2&#39; /&gt;&lt;P N=&#39;AppRelativeTemplateSourceDirectory&#39; R=&#39;-1&#39; /&gt;" />
+  <SharePoint:CssLink runat="server" Version="15" __designer:Preview="" __designer:Values="&lt;P N=&#39;UIVersion&#39; T=&#39;&amp;gt;=15&#39; /&gt;&lt;P N=&#39;ID&#39; ID=&#39;1&#39; T=&#39;ctl00&#39; /&gt;&lt;P N=&#39;Page&#39; ID=&#39;2&#39; /&gt;&lt;P N=&#39;TemplateControl&#39; R=&#39;2&#39; /&gt;&lt;P N=&#39;AppRelativeTemplateSourceDirectory&#39; R=&#39;-1&#39; /&gt;"/>
+  <SharePoint:CssRegistration Name="Themable/corev15.css" runat="server" __designer:Preview="" __designer:Values="&lt;P N=&#39;Name&#39; T=&#39;Themable/corev15.css&#39; /&gt;&lt;P N=&#39;ID&#39; ID=&#39;1&#39; T=&#39;ctl01&#39; /&gt;&lt;P N=&#39;Page&#39; ID=&#39;2&#39; /&gt;&lt;P N=&#39;TemplateControl&#39; R=&#39;2&#39; /&gt;&lt;P N=&#39;AppRelativeTemplateSourceDirectory&#39; R=&#39;-1&#39; /&gt;"/>
   <!-- endbuild -->
 
   <link rel="stylesheet" href="App/framework/bootstrap.min.css" />
@@ -33,9 +31,8 @@
   <script type="text/javascript" src="App/framework/camljs.js"></script>
   <script type="text/javascript" src="App/framework/angular-sanitize.js"></script>
   <script type="text/javascript" src="App/framework/ng-csv.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"
-    type="text/css" media="all" />
-
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.js"></script>
+  
   <link rel="stylesheet" href="App/app/css/main.css" />
   <link rel="stylesheet" href="App/app/css/custom.css" />
   <link rel="stylesheet" href="App/app/css/components.css" />
@@ -46,17 +43,14 @@
   <SharePoint:SharePointForm runat="server" __designer:Preview="&lt;table cellpadding=4 cellspacing=0 style=&quot;font:messagebox;color:buttontext;background-color:buttonface;border: solid 1px;border-top-color:buttonhighlight;border-left-color:buttonhighlight;border-bottom-color:buttonshadow;border-right-color:buttonshadow&quot;&gt;
               &lt;tr&gt;&lt;td nowrap&gt;&lt;span style=&quot;font-weight:bold&quot;&gt;SharePointForm&lt;/span&gt; - Unnamed3&lt;/td&gt;&lt;/tr&gt;
               &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;"
-    __designer:Values="&lt;P N=&#39;Method&#39; T=&#39;post&#39; /&gt;&lt;P N=&#39;Name&#39; ID=&#39;1&#39; T=&#39;ctl02&#39; /&gt;&lt;P N=&#39;TagName&#39; T=&#39;form&#39; /&gt;&lt;P N=&#39;ID&#39; R=&#39;1&#39; /&gt;&lt;P N=&#39;Page&#39; ID=&#39;2&#39; /&gt;&lt;P N=&#39;TemplateControl&#39; R=&#39;2&#39; /&gt;&lt;P N=&#39;AppRelativeTemplateSourceDirectory&#39; R=&#39;-1&#39; /&gt;">
+            &lt;/table&gt;" __designer:Values="&lt;P N=&#39;Method&#39; T=&#39;post&#39; /&gt;&lt;P N=&#39;Name&#39; ID=&#39;1&#39; T=&#39;ctl02&#39; /&gt;&lt;P N=&#39;TagName&#39; T=&#39;form&#39; /&gt;&lt;P N=&#39;ID&#39; R=&#39;1&#39; /&gt;&lt;P N=&#39;Page&#39; ID=&#39;2&#39; /&gt;&lt;P N=&#39;TemplateControl&#39; R=&#39;2&#39; /&gt;&lt;P N=&#39;AppRelativeTemplateSourceDirectory&#39; R=&#39;-1&#39; /&gt;">
     <SharePoint:FormDigest runat="server" />
   </SharePoint:SharePointForm>
   <div class="page-wrapper ice-theme toggled">
     <div ui-view="sidebar"></div>
     <!-- page-content  -->
     <main class="page-content pt-2">
-      <div class="form-group col-md-12">
-        <vbdc-header></vbdc-header>
-      </div>
+      <vbdc-header></vbdc-header>
       <hr />
       <div class="form-group col-md-12">
         <div ui-view="content"></div>
@@ -68,13 +62,13 @@
   <!-- page-wrapper -->
   <!-- build:sharepoint-js -->
 
-  <SharePoint:ScriptLink name="clienttemplates.js" runat="server" LoadAfterUI="true" Localizable="false" />
-  <SharePoint:ScriptLink name="clientforms.js" runat="server" LoadAfterUI="true" Localizable="false" />
-  <SharePoint:ScriptLink name="clientpeoplepicker.js" runat="server" LoadAfterUI="true" Localizable="false" />
-  <SharePoint:ScriptLink name="autofill.js" runat="server" LoadAfterUI="true" Localizable="false" />
-  <SharePoint:ScriptLink name="sp.js" runat="server" LoadAfterUI="true" Localizable="false" />
-  <SharePoint:ScriptLink name="sp.runtime.js" runat="server" LoadAfterUI="true" Localizable="false" />
-  <SharePoint:ScriptLink name="sp.core.js" runat="server" LoadAfterUI="true" Localizable="false" />
+  <SharePoint:ScriptLink name="clienttemplates.js" runat="server" LoadAfterUI="true" Localizable="false"/>
+  <SharePoint:ScriptLink name="clientforms.js" runat="server" LoadAfterUI="true" Localizable="false"/>
+  <SharePoint:ScriptLink name="clientpeoplepicker.js" runat="server" LoadAfterUI="true" Localizable="false"/>
+  <SharePoint:ScriptLink name="autofill.js" runat="server" LoadAfterUI="true" Localizable="false"/>
+  <SharePoint:ScriptLink name="sp.js" runat="server" LoadAfterUI="true" Localizable="false"/>
+  <SharePoint:ScriptLink name="sp.runtime.js" runat="server" LoadAfterUI="true" Localizable="false"/>
+  <SharePoint:ScriptLink name="sp.core.js" runat="server" LoadAfterUI="true" Localizable="false"/>
 
   <!-- endbuild -->
   <!-- using online scripts -->
