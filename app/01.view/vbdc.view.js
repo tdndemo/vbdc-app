@@ -187,7 +187,7 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
         }
       }
       query = "<View><Query><OrderBy><FieldRef Name='Created' Ascending='FALSE'/></OrderBy><Where>" +
-        query + "</Where></Query><RowLimit>1</RowLimit></View>";
+        query + "</Where></Query><RowLimit>25</RowLimit></View>";
 
       return query;
     },

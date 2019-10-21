@@ -74,12 +74,13 @@ angular.module("vbdc-app").controller("vbdc.metadata.setting.controller", [
         $uibModal.open({
           templateUrl: "$app/04.modals/confirm.delete.template.html",
           backdrop: "static",
+          windowClass: 'show',
           controller: "confirm.delete.modal.controller",
-          size: "lg",
+          size: "sm",
           resolve: {}
         })
           .result.then(function (result) {
-            if (result === GLOBAL_CONSTANTS.CONFIRM.YES) {
+            if (result) {
               $.blockUI({
                 message: '<h4>Đang cập nhật dữ liệu...</h4>',
               });
@@ -93,7 +94,7 @@ angular.module("vbdc-app").controller("vbdc.metadata.setting.controller", [
                   //$msg.error("Có lỗi trong quá trình xử lý. Hãy liên hệ với Quản trị hệ thống để được hỗ trợ.");
                 })
                 .finally(function () {
-                  Fx.unblockUI();
+                  $.unblockUI();
                 });
             }
             else {

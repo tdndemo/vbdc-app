@@ -95,6 +95,7 @@ angular.module("vbdc-app").factory("vbdcService", [
     };
 
     lib.deleteItem = function (id, site, listName) {
+      var dfd = $q.defer();
       var clientContext = new SP.ClientContext(
         _spPageContextInfo.webAbsoluteUrl + "/" + site
       );
@@ -107,11 +108,13 @@ angular.module("vbdc-app").factory("vbdcService", [
       clientContext.executeQueryAsync(
         function () {
           console.log("Item #" + id + " deleted successfully!");
+          dfd.resolve(true);
         },
         function (sender, args) {
           alert(args.get_message());
         }
       );
+      return dfd.promise;
     };
 
     lib.getById = function (id, site, listName) {
