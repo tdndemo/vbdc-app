@@ -1,0 +1,134 @@
+<div class="modal-content" uib-modal-transclude="">
+    <div class="modal-header ng-scope">
+        <button type="button" class="close" ng-click="actions.cancel()"><span>×</span></button>
+        <h4 class="modal-title uppercase font-red-haze bold">Tìm văn bản</h4>
+    </div>
+    <div class="modal-body ng-scope">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    <div class="form-body" ng-enter="actions.search()">
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Tên đường dẫn:</label>
+                                        <div class="col-sm-8">
+                                            <select k-ng-model="vm.searchCriteria.SiteUrl" 
+                                                k-options="vm.optSiteUrl"
+                                                kendo-drop-down-list="" class="full-width" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Tên danh sách:</label>
+                                        <div class="col-sm-8">
+                                            <select k-ng-model="vm.searchCriteria.ListName" 
+                                                k-options="vm.optListName"
+                                                k-value-primitive="true" kendo-drop-down-list="" 
+                                                class="full-width">                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label class="col-sm-4 control-label">Từ khóa:</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" type="text" 
+                                                ng-model="vm.searchCriteria.Keyword"
+                                                maxlength="154">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label class="col-sm-4 control-label">Thể thức</label>
+                                        <div class="col-sm-8">
+                                            <select k-ng-model="vm.searchCriteria.DocumenTypes" 
+                                                kendo-multi-select=""
+                                                class="full-width" k-options="vm.loaiVanBanOptions"                                                >
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label class="col-sm-4 control-label">Lĩnh vực:</label>
+                                        <div class="col-sm-8 inline-block">
+                                            <select kendo-multi-select="" k-options="vm.optLinhVuc"
+                                                k-ng-model="vm.searchCriteria.LinhVuc" 
+                                                multiple="multiple" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-default btn-sm"
+                                                        ng-click="actions.search()">
+                                                        <i class="fa fa-search font-green-jungle right-5"></i>Tìm
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-sm"
+                                                        ng-click="actions.resetSearch()">
+                                                        <i class="fa fa-refresh"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="form-section uppercase font-blue-sharp bold">Kết quả tìm kiếm</h4>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div class="table-scrollable" style="margin-top: 0px !important">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr class="heading">
+                                                            <th style="width: 30px"></th>
+                                                            <th>Số, Ký hiệu</th>
+                                                            <th>Trích yếu</th>
+                                                            <th>Tình trạng hiệu lực</th>
+                                                            <th style="width: 100px">Ngày hiệu lực</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>    
+                                                        <tr ng-if="(vm.results.length > 0)" ng-repeat="item in vm.results" class="ng-scope">
+                                                            <td></td>
+                                                            <td>{{item.SoKyHieu}}</td>
+                                                            <td>{{item.TrichYeu}}</td>
+                                                            <td>{{item.TinhTrangHieuLuc}}</td>
+                                                            <td>{{item.NgayHieuLuc | date 'dd/MM/yyyy'}}</td>
+                                                        </tr>                                                    
+                                                        <tr ng-if="!(vm.results.length > 0)" class="ng-scope">
+                                                            <td colspan="5">Không có dữ liệu</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer ng-scope"><button class="btn btn-default btn-sm" ng-click="actions.addDocuments()"><i
+                    class="fa fa-plus font-green-jungle right-5"></i>
+                <fx-ml-label key="DOCUMENT.FIELD.ADD-DOCUMENT" default-value="Thêm văn bản" class="ng-isolate-scope">
+                    <span class="ml-label ng-binding" ng-bind="displayValue">Thêm văn bản</span></fx-ml-label>
+            </button> <button class="btn btn-default btn-sm" ng-click="actions.cancel()">
+                <fx-ml-label key="DOCUMENT.FIELD.CLOSE" default-value="Bỏ qua" class="ng-isolate-scope">
+                    <span class="ml-label ng-binding" ng-bind="displayValue">Bỏ qua</span></fx-ml-label>
+            </button>
+        </div>
+    </div>

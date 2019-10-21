@@ -1,8 +1,12 @@
-angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, metadataService, $location, vbdcService) {
+angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, metadataService, 
+    $location, vbdcService, $uibModal, $stateParams) {
+    $scope.fCanEdit = function(){
+        return true;
+    }
     $scope.vm = {
-        document: {
-            Nam: new Date().getFullYear()
-        },
+        // document: {
+        //     NamVanBan: new Date().getFullYear()
+        // },
         isEdit: true,
         dataLoaded: true,
         form: {
@@ -19,11 +23,51 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
             $location.path("/view");
         },
         load: function () {
+            var itemId = _.get($stateParams, "id");
+            if(itemId){
+                vbdcService.getAllWithCaml("ThuocTinhVanBan", ["ID", "Title", "SoKyHieu", "NoiDung", "SoVanBan", 
+                    "NgayBanHanh", "TheThucVanBan", "TinhTrangHieuLuc", "DonViBienSoan", "TenVanBan", "NamVanBan",
+                    "NguoiBienSoan", "NguoiNhanUyQuyen", "LanBanHanh", "LyDoBanHanh", "NguoiKy", "NgayKy", "ThamQuyenKy",
+                    "NgayHieuLuc", "NgayHetHieuLuc", "NgayDinhChi", "NgayBiHuyBo", "NgaySuaDoi", "NgayBiThayThe", "VanBanLienQuan"],
+                    "vbdc", "", "<View><Query>" +
+                    '<Where><Eq><FieldRef Name="ID" /><Value Type="Number">'+itemId+'</Value></Eq></Where>' +
+                    "</Query>" +                    
+                    "</View>")
+                    .then(function(data){
+                        if(data.length > 0){
+                            $scope.vm.document = data[0];
+                        }
+                        else{
+                            $scope.vm.document =  {
+                                NamVanBan: new Date().getFullYear()
+                            };
+                        }
+                    })
+            }
+            else{
+                $scope.vm.document =  {
+                    NamVanBan: new Date().getFullYear()
+                };
+            }
             $scope.vm.departments = [];
             metadataService.getAllWithSelect("Departments", "Active ne 0", "Id,Title,Code,ParentCode,ItemOrder")
                 .then(function (data) {
                     $scope.vm.departments = data;
                 })
+        },
+        addRelatedDocuments: function(){
+            $uibModal.open({
+                animation: true,
+                templateUrl: '$app/04.modals/select.vanban.template.html',
+                controller: 'selectDocsCtrl as vm',
+                size: 'md',
+                windowClass: 'my-modal-popup',
+                resolve: {
+                    $document: function () {
+                        return $scope.vm.document;
+                    }
+                }
+            });
         }
     }
     //load
@@ -46,7 +90,8 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
 
         var fileInput = $("#fileTepVanBan");
 
-        if (_.get(fileInput[0], "files.length") <= 0 && _.get($state, "current.name") === d01_CONSTANTS.APP_STATE.NEW_FORM.name) {
+        // if (_.get(fileInput[0], "files.length") <= 0 && _.get($state, "current.name") === d01_CONSTANTS.APP_STATE.NEW_FORM.name) {
+        if (_.get(fileInput[0], "files.length")){
             errors.push({
                 Group: "Trường dữ liệu bắt buộc",
                 Field: "Tệp văn bản",
@@ -54,7 +99,7 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
             });
         }
 
-        if (!(_.get($scope, "vm.document.SoVanBan.Id") > 0)) {
+        if (!(_.get($scope, "vm.document.SoVanBan"))) {
             errors.push({
                 Group: "Trường dữ liệu bắt buộc",
                 Field: "Sổ văn bản",
@@ -62,10 +107,10 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
             });
         }
 
-        if (!(_.get($scope, "vm.document.LoaiVanBan.length") > 0)) {
+        if (!(_.get($scope, "vm.document.TheThucVanBan"))) {
             errors.push({
                 Group: "Trường dữ liệu bắt buộc",
-                Field: "Loại văn bản",
+                Field: "Thể thức văn bản",
                 Message: "Bắt buộc phải nhập dữ liệu chính xác"
             });
         }
@@ -76,41 +121,18 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
                 Field: "Số ký hiệu",
                 Message: "Bắt buộc phải nhập dữ liệu"
             });
-        }
+        }        
 
-        if (!(_.get($scope, "vm.document.TrichYeu.length") > 0)) {
+        if (!(_.get($scope, "vm.document.ThamQuyenKy.length") > 0)) {
             errors.push({
                 Group: "Trường dữ liệu bắt buộc",
-                Field: "Trích yếu",
+                Field: "Thẩm quyền ban hành",
                 Message: "Bắt buộc phải nhập dữ liệu"
             });
         }
 
-        if (!_.get($scope, "vm.document.NgayDen")) {
-            errors.push({
-                Group: "Trường dữ liệu bắt buộc",
-                Field: "Ngày đến",
-                Message: "Bắt buộc phải nhập dữ liệu"
-            });
-        }
-
-        if (!(_.get($scope, "vm.document.CoQuanBanHanh.length") > 0)) {
-            errors.push({
-                Group: "Trường dữ liệu bắt buộc",
-                Field: "Cơ quan ban hành",
-                Message: "Bắt buộc phải nhập dữ liệu"
-            });
-        }
-
-        if (!(_.get($scope, "vm.document.SoDen"))) {
-            errors.push({
-                Group: "Trường dữ liệu bắt buộc",
-                Field: "Số đến",
-                Message: "Bắt buộc phải nhập dữ liệu"
-            });
-        }
-
-        if (!_.get($scope, "vm.document.NgayThang")) {
+        
+        if (!_.get($scope, "vm.document.NgayHieuLuc")) {
             errors.push({
                 Group: "Trường dữ liệu bắt buộc",
                 Field: "Ngày tháng văn bản",
@@ -118,21 +140,15 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
             });
         }
 
-        if (!(_.get($scope, "vm.document.SoTrang"))) {
+        
+        
+        if (_.get($scope, "vm.document.NgayHieuLuc") && _.get($scope, "vm.document.NgayHetHieuLuc") && new Date(_.get($scope, "vm.document.NgayHieuLuc")) > new Date(_.get($scope, "vm.document.NgayHetHieuLuc"))) {
             errors.push({
                 Group: "Trường dữ liệu bắt buộc",
-                Field: "Số trang",
-                Message: "Bắt buộc phải nhập dữ liệu"
+                Field: "Ngày hết hiệu lực",
+                Message: "Ngày hết hiệu lực phải lớn hơn hoặc bằng ngày hiệu lực"
             });
         }
-
-        // if (moment(_.get($scope, "vm.document.NgayThang")).startOf('day').isAfter(moment(_.get($scope, "vm.document.NgayDen")).startOf('day'))) {
-        //     errors.push({
-        //         Group: "Trường dữ liệu bắt buộc",
-        //         Field: "Ngày đến",
-        //         Message: "Ngày đến phải lớn hơn hoặc bằng ngày tháng văn bản"
-        //     });
-        // }
 
 
         _.set($scope, "vm.errors", errors);
@@ -148,13 +164,20 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
         // if (!$scope.vm.actions.validateForm()) {
         //     return;
         // }    
-        vbdcService.saveItem({ "Title": "123" }, "DocumentMatadata")
+        $scope.vm.document.NguoiBienSoanId = _.get($scope.vm.document.NguoiBienSoan, "Id");
+        $scope.vm.document.NguoiKyId = _.get($scope.vm.document.NguoiKy, "Id");
+        $scope.vm.document.NguoiNhanUyQuyenId = _.get($scope.vm.document.NguoiNhanUyQuyen, "Id");
+        delete $scope.vm.document.NguoiBienSoan;
+        delete $scope.vm.document.NguoiKy;
+        delete $scope.vm.document.NguoiNhanUyQuyen;
+        $scope.vm.document.DonViBienSoan = $scope.vm.getMultiField($scope.vm.document.DonViBienSoan);
+        metadataService.saveItem($scope.vm.document, "ThuocTinhVanBan")
             .then(function (item) {
                 if ($("#fileInput")[0] && $("#fileInput")[0].files.length > 0) {
                     vbdcService.uploadFile($scope.vm.arrayBuffer, $("#fileInput")[0].files[0].name, "VanBan", _spPageContextInfo.siteAbsoluteUrl + "/vbdc/VanBan")
                         .then(function (data) {
                             var fileId = data.get_listItemAllFields().get_id();
-                            vbdcService.saveItem({ "Id": fileId, "ItemId": item.get_id().toString() }, "VanBan")
+                            vbdcService.saveItem({ "Id": fileId, "ItemId": item.Id.toString() }, "VanBan")
                                 .then(function () {
 
                                 })
@@ -166,9 +189,16 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
             })
     }
 
+    $scope.vm.getMultiField = function(data){
+        var result = "";
+        if(data.length > 0){
+            result = _.join(_.map(data, "Title"), ";");
+        }
+        return result;
+    }
     //Kendo options
     $scope.vm.optLoaiVanBan = {
-        dataValueField: "Id",
+        dataValueField: "Title",
         dataTextField: "Title",
         dataSource:
         {
@@ -191,59 +221,59 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
         filter: "contains"
     },
 
-        $scope.vm.optThamQuyenKy = {
-            dataValueField: "Id",
-            dataTextField: "Title",
-            dataSource:
-            {
-                transport: {
-                    read: function (options) {
-                        metadataService.getAll("ThamQuyenBanHanh", "Active ne 0")
-                            .then(function (data) {
-                                if (data.length > 0) {
-                                    options.success(data);
-                                } else {
-                                    options.success([]);
-                                }
-                            })
-                            .catch(function () {
+    $scope.vm.optThamQuyenKy = {
+        dataValueField: "Title",
+        dataTextField: "Title",
+        dataSource:
+        {
+            transport: {
+                read: function (options) {
+                    metadataService.getAll("ThamQuyenBanHanh", "Active ne 0")
+                        .then(function (data) {
+                            if (data.length > 0) {
+                                options.success(data);
+                            } else {
                                 options.success([]);
-                            });
-                    }
+                            }
+                        })
+                        .catch(function () {
+                            options.success([]);
+                        });
                 }
-            },
-            filter: "contains"
+            }
         },
+        filter: "contains"
+    },
 
-        $scope.vm.optTinhTrangHieuLuc = {
-            dataValueField: "Id",
-            dataTextField: "Title",
-            dataSource:
-            {
-                transport: {
-                    read: function (options) {
-                        metadataService.getAll("TinhTrangHieuLuc", "Active ne 0")
-                            .then(function (data) {
-                                if (data.length > 0) {
-                                    options.success(data);
-                                } else {
-                                    options.success([]);
-                                }
-                            })
-                            .catch(function () {
+    $scope.vm.optTinhTrangHieuLuc = {
+        dataValueField: "Title",
+        dataTextField: "Title",
+        dataSource:
+        {
+            transport: {
+                read: function (options) {
+                    metadataService.getAll("TinhTrangHieuLuc", "Active ne 0")
+                        .then(function (data) {
+                            if (data.length > 0) {
+                                options.success(data);
+                            } else {
                                 options.success([]);
-                            });
-                    }
+                            }
+                        })
+                        .catch(function () {
+                            options.success([]);
+                        });
                 }
-            },
-            filter: "contains"
+            }
         },
-        $scope.vm.optSoVanBan = {
-            autoBind: false,
-            valuePrimitive: true,
-            dataSource: [
-                "Sổ văn bản thường",
-                "Sổ văn bản mật"
-            ]
-        }
+        filter: "contains"
+    },
+    $scope.vm.optSoVanBan = {
+        autoBind: false,
+        valuePrimitive: true,
+        dataSource: [
+            "Sổ văn bản thường",
+            "Sổ văn bản mật"
+        ]
+    }
 });

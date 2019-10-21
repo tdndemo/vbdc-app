@@ -84,7 +84,7 @@ app.config([
         }
       })
       .state("vbdc-form", {
-        url: "/form",
+        url: "/form/:id",
         data: { pageTitle: "", pageSubTitle: "" },
         views: {
           content: {

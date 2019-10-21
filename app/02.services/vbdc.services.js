@@ -118,6 +118,7 @@ angular.module("vbdc-app").factory("vbdcService", [
     };
 
     lib.getById = function (id, site, listName) {
+      var dfd = $q.defer();
       var clientContext = new SP.ClientContext(
         _spPageContextInfo.webAbsoluteUrl + "/" + site
       );
@@ -131,13 +132,16 @@ angular.module("vbdc-app").factory("vbdcService", [
         function () {
           // onSuccess
           var title = item.get_item("Title");
-          alert(title);
+          dfd.resolve(item);
+          //alert(title);
         },
         function (sender, args) {
           // onError
-          alert(args.get_message());
+          //alert(args.get_message());
+          dfd.reject({});
         }
       );
+      return dfd.promise;
     };
 
     lib.uploadFile = function (arrayBuffer, fileName, listName, folderPath) {

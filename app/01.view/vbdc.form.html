@@ -157,7 +157,7 @@
                 k-min="1"
                 k-max="9999999"
                 k-on-change="vm.actions.changeDocumentTypes()"
-                k-ng-model="vm.document.Nam"
+                k-ng-model="vm.document.NamVanBan"
                 class="full-width ng-isolate-scope k-input"
                 data-role="numerictextbox"
                 role="spinbutton"
@@ -193,7 +193,7 @@
           <label class="col-sm-2 control-label">Người biên soạn:</label>
           <div class="col-sm-4">
             <people-picker
-              ng-model="vm.NguoiBienSoan"
+              ng-model="vm.document.NguoiBienSoan"
               model-type="object"
               multi-select="false"
               model-set-type="replace"
@@ -254,7 +254,7 @@
           </label>
           <div class="col-sm-4">
             <people-picker
-              ng-model="vm.NguoiKy"
+              ng-model="vm.document.NguoiKy"
               model-type="object"
               multi-select="false"
               model-set-type="replace"

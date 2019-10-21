@@ -14,7 +14,7 @@
                         "Accept": "application/json;odata=verbose",
                     },
                 }).success(function (data) {
-                    dfd.resolve(_.get(data, "d.results"));
+                    dfd.resolve(_.get(data, "d"));
                 }).error(function (error) {
                     console.log(error);
                     dfd.resolve(false);
@@ -40,6 +40,26 @@
                 });
                 return dfd.promise;
             };
+
+            this.saveItem = function(dataItem, listName){
+                dataItem.__metadata = {type: 'SP.Data.'+listName+'ListItem' }
+                var dfd = $q.defer();
+                var restUrl = _spPageContextInfo.siteAbsoluteUrl + "/vbdc/_api/lists/getByTitle('"+listName+"')/items"
+               
+                $http.post(restUrl, dataItem, {
+                    headers: {
+                        "Content-Type" : "application/json;odata=verbose",
+                        "Accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val() 
+                    },
+                }).success(function (data) {
+                    dfd.resolve(_.get(data, "d.results"));
+                }).error(function (error) {
+                    console.log(error);
+                    dfd.resolve(false);
+                });
+                return dfd.promise;
+            }
         }
     ]);
 
