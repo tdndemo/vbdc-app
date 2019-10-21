@@ -72,6 +72,17 @@ app.config([
         }
       })
       // form
+      .state("vbdc-form-edit", {
+        url: "/form/:id",
+        data: { pageTitle: "", pageSubTitle: "" },
+        views: {
+          content: {
+            templateUrl: "$app/01.view/vbdc.form.html",
+            controller: "vbdc.form.controller"
+          },
+          sidebar: sidebar
+        }
+      })
       .state("vbdc-form", {
         url: "/form",
         data: { pageTitle: "", pageSubTitle: "" },

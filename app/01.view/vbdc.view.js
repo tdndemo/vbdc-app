@@ -240,6 +240,10 @@ angular.module("vbdc-app").controller("vbdc.view.controller", [
       }
     }
 
+    $scope.vm.openItem = function (item) {
+      window.open(_spPageContextInfo.webAbsoluteUrl + "/default.aspx#/form/" + _.get(item, "ID"), '_blank');
+    }
+
     $scope.vm.optLoaiVanBan = {
       dataValueField: "Title",
       dataTextField: "Title",
