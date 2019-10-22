@@ -13,7 +13,7 @@
     <div class="row" style="margin-bottom: 20px;">
         <label class="col-sm-2 control-label">Thể thức</label>
         <div class="col-sm-4">
-            <select k-ng-model="vm.searchCriteria.DocumenTypes" kendo-multi-select="" class="full-width"
+            <select k-ng-model="vm.searchCriteria.TheThucVanBan" kendo-multi-select="" class="full-width"
                 k-options="vm.loaiVanBanOptions">
             </select>
         </div>
@@ -52,11 +52,11 @@
                     </thead>
                     <tbody>
                         <tr ng-if="(vm.results.length > 0)" ng-repeat="item in vm.results" class="ng-scope">
-                            <td></td>
+                            <td><input type="checkbox" ng-model="item.Checked"></td>
                             <td>{{item.SoKyHieu}}</td>
-                            <td>{{item.TrichYeu}}</td>
+                            <td>{{item.NoiDung}}</td>
                             <td>{{item.TinhTrangHieuLuc}}</td>
-                            <td>{{item.NgayHieuLuc | date 'dd/MM/yyyy'}}</td>
+                            <td>{{item.NgayHieuLuc | formatDate:"DD/MM/YYYY"}}</td>
                         </tr>
                         <tr ng-if="!(vm.results.length > 0)" class="ng-scope">
                             <td colspan="5">Không có dữ liệu</td>
