@@ -33,37 +33,37 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
                     "vbdc", "", "<View><Query>" +
                     '<Where><Eq><FieldRef Name="ID" /><Value Type="Number">' + itemId + '</Value></Eq></Where>' +
                     "</Query>" +
-                    "</View>")
+                "</View>")
                     .then(function (data) {
                         if (data.length > 0) {
                             $scope.vm.document = data[0];
                             $scope.vm.DVBS = JSON.parse(data[0].DonViBienSoan || "[]");
-                            if(_.get($scope.vm.document.VanBanLienQuan, "length") > 0){
+                            if (_.get($scope.vm.document.VanBanLienQuan, "length") > 0) {
                                 var listId = _.compact($scope.vm.document.VanBanLienQuan.split(";"));
                                 var temp = "";
                                 var orquery = _.map(listId, function (id) {
                                     return String.format("<Eq><FieldRef Name='ID' /><Value Type='Number'>{0}</Value></Eq>",
-                                    id);
+                                        id);
                                 });
                                 _.forEach(orquery, function (item) {
                                     if (temp) {
-                                    temp = "<Or>" + temp + item + "</Or>";
+                                        temp = "<Or>" + temp + item + "</Or>";
                                     } else {
-                                    temp = item;
+                                        temp = item;
                                     }
                                 });
                                 temp = "<View><Query><OrderBy><FieldRef Name='Created' Ascending='FALSE'/></OrderBy><Where>" +
-                                temp + "</Where></Query><RowLimit>25</RowLimit></View>";
+                                    temp + "</Where></Query><RowLimit>25</RowLimit></View>";
                                 vbdcService.getAllWithCaml("ThuocTinhVanBan", ["ID", "Title", "SoKyHieu", "NoiDung", "SoVanBan",
                                     "NgayBanHanh", "TheThucVanBan", "TinhTrangHieuLuc", "DonViBienSoan", "TenVanBan", "NamVanBan",
                                     "NguoiBienSoan", "NguoiNhanUyQuyen", "LanBanHanh", "LyDoBanHanh", "NguoiKy", "NgayKy", "ThamQuyenKy",
                                     "NgayHieuLuc", "NgayHetHieuLuc", "NgayDinhChi", "NgayBiHuyBo", "NgaySuaDoi", "NgayBiThayThe", "VanBanLienQuan"],
                                     "vbdc", "", temp)
-                                    .then(function(data){
+                                    .then(function (data) {
                                         $scope.vm.items = data;
                                     });
                             }
-                            else{
+                            else {
                                 $scope.vm.items = [];
                             }
                         }
@@ -77,7 +77,7 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
             }
             else {
                 $scope.vm.document = {
-                    NamVanBan: new Date().getFullYear(),                    
+                    NamVanBan: new Date().getFullYear(),
                 };
                 $scope.vm.items = [];
             }
@@ -92,13 +92,28 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
                 animation: true,
                 templateUrl: '$app/04.modals/select.vanban.template.html',
                 controller: 'selectDocsCtrl as vm',
-                size: 'lg', 
+                size: 'lg',
                 backdrop: 'static',
                 windowClass: 'show',
                 resolve: {
-                    $parent: function(){
+                    $parent: function () {
                         return $scope.vm
-                    }                    
+                    }
+                }
+            });
+        },
+        releaseDoc: function () {
+            $uibModal.open({
+                animation: true,
+                templateUrl: '$app/04.modals/release.document.template.html',
+                controller: 'release.document.modal.controller',
+                size: 'lg',
+                backdrop: 'static',
+                windowClass: 'show',
+                resolve: {
+                    $parent: function () {
+                        return $scope.vm
+                    }
                 }
             });
         }
@@ -191,7 +206,7 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
         delete $scope.vm.document.NguoiNhanUyQuyen;
         $scope.vm.document.DonViBienSoan = JSON.stringify($scope.vm.DVBS || []);
         $scope.vm.document.Id = $scope.vm.document.ID;
-        if($scope.vm.items.length > 0){            
+        if ($scope.vm.items.length > 0) {
             $scope.vm.document.VanBanLienQuan = _.join(_.map($scope.vm.items, "ID"), ";");
         }
         metadataService.saveItem($scope.vm.document, "ThuocTinhVanBan")
@@ -301,12 +316,12 @@ angular.module("vbdc-app").controller("vbdc.form.controller", function ($scope, 
                 "Sổ văn bản mật"
             ]
         }
-        $scope.vm.optLoaiVanBanLienQuan = {
-            autoBind: false,
-            valuePrimitive: true,
-            dataSource: [
-                "Loại 1",
-                "Loại 2"
-            ]
-        }
+    $scope.vm.optLoaiVanBanLienQuan = {
+        autoBind: false,
+        valuePrimitive: true,
+        dataSource: [
+            "Loại 1",
+            "Loại 2"
+        ]
+    }
 });

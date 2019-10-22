@@ -5,11 +5,15 @@
       <span style="font-size: 17px;font-weight: 600;">Tạo mới văn bản định chế</span>
     </span>
     <div class="pull-right">
+      <button type="button" class="btn btn-sm right-5" ng-click="vm.actions.releaseDoc()">
+        <i class="fas fa-paper-plane font-green-jungle right-5"></i>
+        Ban hành
+      </button>
       <button type="button" class="btn btn-sm right-5" ng-click="vm.actions.saveItem()"
         ng-if="vm.actions.canUpdateRequestDetail()">
         <i class="fa fa-save font-green-jungle right-5"></i> Lưu lại
       </button>
-      <button type="button" class="btn btn-sm right-5" ng-click="vm.actions.goBack();">
+      <button type="button" class="btn btn-sm" ng-click="vm.actions.goBack();">
         <i class="fas fa-times"></i>
         Đóng lại
       </button>
